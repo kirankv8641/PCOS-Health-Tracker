@@ -1,0 +1,463 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── Base ── */
+.home-page {
+  font-family: 'DM Sans', sans-serif;
+  background: #c1b3f2;
+  color: #1a1135;
+  min-height: 100vh;
+}
+
+/* ── Hero ── */
+.home-hero {
+  padding: 3.5rem 3rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: rgba(99, 80, 200, 0.07);
+  pointer-events: none;
+}
+
+.home-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: 200px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(196, 107, 168, 0.06);
+  pointer-events: none;
+}
+
+.home-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8b67d8;
+  background: #EDE8FF;
+  padding: 5px 14px;
+  border-radius: 99px;
+  display: inline-block;
+  margin-bottom: 1.25rem;
+}
+
+.home-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 52px;
+  line-height: 1.1;
+  color: #1a1135;
+  margin-bottom: 1rem;
+}
+
+.home-title em {
+  font-style: italic;
+  color: #7C5CBF;
+}
+
+.home-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #5a5070;
+  max-width: 480px;
+  margin-bottom: 2rem;
+}
+
+.home-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #5B3FBF;
+  color: #fff;
+  padding: 13px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+}
+
+.home-cta:hover {
+  background: #4930a8;
+}
+
+.home-cta-arrow {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+/* ── Hero Right Card ── */
+.home-hero-right {
+  position: relative;
+}
+
+.home-hero-card {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #E8E2FF;
+  padding: 1.6rem;
+  position: relative;
+  z-index: 2;
+}
+
+.home-hero-card-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #4f24c3;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+
+.home-cycle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.home-cycle-node {
+  background: #F3F0FF;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+
+.home-cycle-node.accent {
+  background: #EDE3FF;
+}
+
+.home-cycle-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #3d2c8a;
+}
+
+.home-cycle-node.accent .home-cycle-title {
+  color: #5B3FBF;
+}
+
+.home-cycle-sub {
+  font-size: 11px;
+  color: #7463a8;
+  margin-top: 3px;
+}
+
+.home-cycle-connector {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.home-cycle-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C9BCFF;
+  display: inline-block;
+}
+
+.home-floating-badge {
+  position: absolute;
+  bottom: -16px;
+  right: -16px;
+  background: #fff;
+  border: 1px solid #E8E2FF;
+  border-radius: 14px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 3;
+  box-shadow: 0 4px 20px rgba(91, 63, 191, 0.1);
+}
+
+.home-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7C5CBF;
+  flex-shrink: 0;
+}
+
+.home-badge-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #3d2b8a;
+}
+
+.home-badge-sub {
+  font-size: 11px;
+  color: #9B89CC;
+  margin-top: 1px;
+}
+
+/* ── Stats Strip ── */
+.home-stats-strip {
+  background: #fff;
+  border-top: 1px solid #EDE8FF;
+  border-bottom: 1px solid #EDE8FF;
+  padding: 2.5rem 3rem;
+  margin-top: 2rem;
+}
+
+.home-stats-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #9B89CC;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.home-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #beaef8;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.home-stat-item {
+  background: #d0c3f5;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.home-stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: #3d2b8a;
+  line-height: 1;
+}
+
+.home-stat-desc {
+  font-size: 13px;
+  color: #7a6a9a;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* ── Features ── */
+.home-features {
+  padding: 3rem 3rem;
+}
+
+.home-features-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.home-features-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  color: #7C5CBF;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.home-features-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: #1a1135;
+  line-height: 1.2;
+}
+
+.home-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.home-feature-card {
+  background: #fff;
+  border: 1px solid #EDE8FF;
+  border-radius: 20px;
+  padding: 1.75rem;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.home-feature-card:hover {
+  transform: translateY(-3px);
+  border-color: #C9BCFF;
+}
+
+.home-feature-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  font-size: 20px;
+}
+
+.home-feature-icon.diet     { background: #EDF7EE; }
+.home-feature-icon.exercise { background: #EDE8FF; }
+.home-feature-icon.symptoms { background: #FDEEF8; }
+
+.home-feature-title {
+  font-size: 17px;
+  font-weight: 500;
+  color: #1a1135;
+  margin-bottom: 8px;
+}
+
+.home-feature-desc {
+  font-size: 14px;
+  color: #7a6a9a;
+  line-height: 1.6;
+}
+
+.home-feature-link {
+  margin-top: 1.25rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: #7C5CBF;
+}
+
+/* ── CTA Banner ── */
+.home-cta-banner {
+  margin: 0 3rem 3rem;
+  background: linear-gradient(135deg, #3d2b8a, #5B3FBF);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.home-cta-tag {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.home-cta-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.home-cta-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 420px;
+  line-height: 1.6;
+}
+
+.home-cta-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.home-cta-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ── Responsive ── */
+/* ── Learn Section (match CTA width & style) ── */
+.home-learn {
+  margin: 0 3rem 3rem;   /* same as CTA */
+}
+
+/* Card */
+.home-learn-card {
+  width: 100%;
+  background: linear-gradient(135deg, #3d2b8a, #5B3FBF);  /* same purple */
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  color: white;
+}
+
+/* Text */
+.home-learn-left h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.home-learn-left p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 420px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+/* Points */
+.home-learn-points {
+  padding-left: 18px;
+  margin-bottom: 16px;
+}
+
+.home-learn-points li {
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 5px;
+}
+
+/* Button (match CTA button style) */
+.home-learn-left button {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.home-learn-left button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}

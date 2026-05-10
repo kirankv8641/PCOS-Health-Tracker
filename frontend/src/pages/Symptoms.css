@@ -1,0 +1,515 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── Base ── */
+.sym-page {
+  font-family: 'DM Sans', sans-serif;
+  background: #c1b3f2;
+  min-height: 100vh;
+  padding: 2.5rem;
+  color: #1a1135;
+}
+
+/* ── Header ── */
+.sym-header {
+  margin-bottom: 2rem;
+}
+
+.sym-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7C5CBF;
+  background: #EDE8FF;
+  padding: 4px 13px;
+  border-radius: 99px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.sym-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 40px;
+  color: #1a1135;
+  line-height: 1.1;
+  margin: 0 0 6px;
+}
+
+.sym-title em {
+  font-style: italic;
+  color: #7C5CBF;
+}
+
+.sym-sub {
+  font-size: 14px;
+  color: #5a5070;
+  margin: 0;
+}
+
+/* ── Grid ── */
+.sym-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
+}
+
+.sym-full        { grid-column: 1 / -1; }
+.sym-two-thirds  { grid-column: 1; }
+.sym-one-third   { grid-column: 2; }
+
+/* ── Card ── */
+.sym-card {
+  background: #fcfafe;
+  border: 1px solid #EDE8FF;
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.sym-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+  gap: 8px;
+}
+
+.sym-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #3d2b8a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Summary ── */
+.sym-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.sym-sum-card {
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  text-align: center;
+}
+
+.sym-sum-card.tracking { background: #ede8ff; }
+.sym-sum-card.mild     { background: #e0f5eb; }
+.sym-sum-card.mod      { background: #fdf0fb; }
+.sym-sum-card.sev      { background: #fde8f0; }
+
+.sym-sum-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.sym-sum-card.tracking .sym-sum-num { color: #3d2b8a; }
+.sym-sum-card.mild     .sym-sum-num { color: #166534; }
+.sym-sum-card.mod      .sym-sum-num { color: #9d174d; }
+.sym-sum-card.sev      .sym-sum-num { color: #9f1239; }
+
+.sym-sum-lbl {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sym-sum-card.tracking .sym-sum-lbl { color: #5B3FBF; }
+.sym-sum-card.mild     .sym-sum-lbl { color: #15803d; }
+.sym-sum-card.mod      .sym-sum-lbl { color: #be185d; }
+.sym-sum-card.sev      .sym-sum-lbl { color: #be123c; }
+
+/* ── Add button ── */
+.sym-add-btn {
+  background: #7c76f4;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.sym-add-btn:hover { background: #5B3FBF; }
+
+/* ── Symptom rows ── */
+.sym-row {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #f0ebff;
+}
+
+.sym-row:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+.sym-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sym-row-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sym-row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sym-icon {
+  font-size: 20px;
+  width: 38px;
+  height: 38px;
+  background: #ede8ff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sym-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1135;
+}
+
+.sym-cat {
+  font-size: 11px;
+  color: #9b89cc;
+  margin-top: 1px;
+}
+
+/* ── Severity badge ── */
+.sym-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+
+.badge-none { background: #f3f0ff; color: #9b89cc; }
+.badge-mild { background: #dcfce7; color: #15803d; }
+.badge-mod  { background: #fdf0fb; color: #be185d; }
+.badge-sev  { background: #fde8f0; color: #9f1239; }
+
+/* ── Remove button on tracked symptom ── */
+.sym-remove-btn {
+  background: transparent;
+  border: 1px solid #C9BCFF;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #9b89cc;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  padding: 0;
+  line-height: 1;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.sym-remove-btn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+/* ── Slider ── */
+.sym-slider-wrap { margin-bottom: 6px; }
+
+.sym-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.sym-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #7c76f4;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #7c76f4;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.sym-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.sym-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #7c76f4;
+  border: 2px solid #fff;
+  cursor: pointer;
+}
+
+.sym-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #9b89cc;
+  margin-top: 2px;
+}
+
+/* ── Notes ── */
+.sym-notes-section {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f0ebff;
+}
+
+.sym-notes {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 12px;
+  border: 1px solid #C9BCFF;
+  background: #f9f7ff;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1135;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.sym-notes:focus { border-color: #7c76f4; }
+.sym-notes::placeholder { color: #b0a0d0; }
+
+.sym-save-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.sym-saved-msg {
+  font-size: 13px;
+  color: #15803d;
+  font-weight: 500;
+}
+
+.sym-save-btn {
+  background: #5B3FBF;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+}
+
+.sym-save-btn:hover { background: #4930a8; }
+
+/* ── Library panel ── */
+.sym-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #C9BCFF;
+  background: #f9f7ff;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1135;
+  outline: none;
+  margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+
+.sym-search:focus { border-color: #7c76f4; }
+.sym-search::placeholder { color: #b0a0d0; }
+
+.sym-cat-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.sym-cat-btn {
+  background: #f3f0ff;
+  border: 1px solid #ede8ff;
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #5B3FBF;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.sym-cat-btn:hover { background: #ede8ff; }
+
+.sym-cat-btn.active {
+  background: #7c76f4;
+  border-color: #7c76f4;
+  color: #fff;
+}
+
+.sym-library-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.sym-lib-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  background: #f9f7ff;
+  border: 1px solid #ede8ff;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.sym-lib-row.added {
+  background: #ede8ff;
+  border-color: #C9BCFF;
+}
+
+.sym-lib-icon { font-size: 18px; flex-shrink: 0; }
+
+.sym-lib-info { flex: 1; }
+
+.sym-lib-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1135;
+}
+
+.sym-lib-cat {
+  font-size: 10px;
+  color: #9b89cc;
+  margin-top: 1px;
+}
+
+.sym-lib-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.sym-lib-btn.add {
+  background: #7c76f4;
+  color: #fff;
+}
+
+.sym-lib-btn.add:hover {
+  background: #5B3FBF;
+  transform: scale(1.1);
+}
+
+.sym-lib-btn.remove {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.sym-lib-btn.remove:hover {
+  background: #fca5a5;
+  transform: scale(1.1);
+}
+
+/* ── History ── */
+.sym-hist-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0ebff;
+}
+
+.sym-hist-row:last-child { border-bottom: none; }
+
+.sym-hist-date {
+  font-size: 12px;
+  font-weight: 600;
+  color: #3d2b8a;
+  margin-bottom: 8px;
+}
+
+.sym-hist-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sym-hist-pill {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+
+.sym-empty {
+  font-size: 13px;
+  color: #9b89cc;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .sym-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sym-full,
+  .sym-two-thirds,
+  .sym-one-third {
+    grid-column: 1;
+  }
+
+  .sym-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sym-page { padding: 1.5rem; }
+  .sym-title { font-size: 32px; }
+}
+
+@media (max-width: 480px) {
+  .sym-page { padding: 1rem; }
+  .sym-title { font-size: 26px; }
+  .sym-card { padding: 1.1rem; border-radius: 16px; }
+  .sym-summary { grid-template-columns: repeat(2, 1fr); }
+}
