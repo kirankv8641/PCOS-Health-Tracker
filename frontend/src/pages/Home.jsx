@@ -141,20 +141,7 @@ export default function Home() {
       </section>
       
       {/* CTA Banner */}
-      <div className="home-cta-banner">
-        <div className="home-cta-banner-left">
-          <div className="home-cta-tag">Ready to start?</div>
-          <div className="home-cta-title">Take control of your PCOS today</div>
-          <div className="home-cta-desc">
-            Join thousands of women tracking their health and seeing real
-            improvements in their quality of life.
-          </div>
-        </div>
-        <button className="home-cta-btn" onClick={() => navigate("/auth")}>
-          Create account →
-        </button>
-      </div>
-
+      
     </div>
   );
 }

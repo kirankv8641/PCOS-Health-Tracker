@@ -1,9 +1,14 @@
-const express = require("express");
-const router = express.Router();
-const protect = require("../middleware/authMiddleware");
-const { logSymptom, getSymptomHistory } = require("../controllers/symptomController");
+const express    = require("express");
+const router     = express.Router();
+const protect    = require("../middleware/authMiddleware");
+const {
+  getSymptomLogs,
+  createSymptomLog,
+  deleteSymptomLog,
+} = require("../controllers/symptomController");
 
-router.post("/", protect, logSymptom);
-router.get("/",  protect, getSymptomHistory);
+router.get(    "/",    protect, getSymptomLogs);
+router.post(   "/",    protect, createSymptomLog);
+router.delete( "/:id", protect, deleteSymptomLog);
 
 module.exports = router;

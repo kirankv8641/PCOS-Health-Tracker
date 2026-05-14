@@ -1,25 +1,50 @@
 const mongoose = require("mongoose");
 
-const symptomLogSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
+const symptomEntrySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    severity: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 3,
+      // 0 = None, 1 = Mild, 2 = Moderate, 3 = Severe
+    },
   },
-  date: {
-    type: Date,
-    default: Date.now
+  { _id: false }
+);
+
+const symptomLogSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+    date: {
+      type: String, // "YYYY-MM-DD"
+      required: true,
+    },
+    symptoms: {
+      type: [symptomEntrySchema],
+      default: [],
+    },
+    notes: {
+      type: String,
+      trim: true,
+      default: "",
+    },
   },
-  symptoms: [
-    {
-      name: String,
-      severity: Number  // 0=none, 1=mild, 2=moderate, 3=severe
-    }
-  ],
-  notes: {
-    type: String,
-    default: ""
-  }
-}, { timestamps: true });
+  { timestamps: true }
+);
+
+// One log per user per day
+symptomLogSchema.index({ userId: 1, date: -1 });
+symptomLogSchema.index({ userId: 1, date: 1 }, { unique: true });
 
 module.exports = mongoose.model("SymptomLog", symptomLogSchema);

@@ -162,6 +162,89 @@
   margin-top: 4px;
 }
 
+/* ── Filter bar ── */
+.ex-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 1rem;
+}
+
+.ex-filter-pill {
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #C9BCFF;
+  color: #7c76f4;
+  background: #f3f0ff;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+
+.ex-filter-pill:hover:not(.active) { background: #ede8ff; }
+
+.ex-filter-pill.active {
+  background: #7c76f4;
+  color: #fff;
+  border-color: #7c76f4;
+}
+
+.ex-filter-pill.pcos {
+  border-color: #e9b8f7;
+  color: #8b1aad;
+  background: #fdf2ff;
+}
+
+.ex-filter-pill.pcos.active {
+  background: #8b1aad;
+  color: #fff;
+  border-color: #8b1aad;
+}
+
+/* ── Yoga-PCOS filter pill ── */
+.ex-filter-pill.yoga-pcos {
+  border-color: #b8e8d0;
+  color: #0f7a50;
+  background: #f0fdf7;
+}
+
+.ex-filter-pill.yoga-pcos:hover:not(.active) { background: #dcfce7; }
+
+.ex-filter-pill.yoga-pcos.active {
+  background: #0f7a50;
+  color: #fff;
+  border-color: #0f7a50;
+}
+
+/* ── PCOS banner ── */
+.ex-pcos-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: linear-gradient(135deg, #fdf2ff 0%, #f3e8ff 100%);
+  border: 1px solid #e9b8f7;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 1rem;
+}
+
+.ex-pcos-banner-icon { font-size: 22px; flex-shrink: 0; }
+
+.ex-pcos-banner-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b0e8c;
+  margin-bottom: 3px;
+}
+
+.ex-pcos-banner-desc {
+  font-size: 11px;
+  color: #8b1aad;
+  line-height: 1.5;
+}
+
 /* ── Recommended exercises (text list) ── */
 .ex-rec-list {
   display: flex;
@@ -181,6 +264,25 @@
   background: #f9f7ff;
 }
 
+.ex-rec-row.pcos-row {
+  border-color: #f0d0fa;
+}
+
+.ex-rec-row.pcos-row.active {
+  border-color: #e9b8f7;
+  background: #fdf8ff;
+}
+
+/* ── Yoga-PCOS row ── */
+.ex-rec-row.yoga-pcos-row {
+  border-color: #c6f0db;
+}
+
+.ex-rec-row.yoga-pcos-row.active {
+  border-color: #86efac;
+  background: #f0fdf7;
+}
+
 .ex-rec-top {
   display: flex;
   align-items: center;
@@ -194,6 +296,10 @@
 
 .ex-rec-top:hover { background: #f3f0ff; }
 
+.ex-rec-row.pcos-row .ex-rec-top:hover { background: #fdf2ff; }
+
+.ex-rec-row.yoga-pcos-row .ex-rec-top:hover { background: #f0fdf7; }
+
 .ex-rec-icon {
   font-size: 20px;
   width: 38px;
@@ -206,6 +312,14 @@
   flex-shrink: 0;
 }
 
+.ex-rec-row.pcos-row .ex-rec-icon {
+  background: #fce7ff;
+}
+
+.ex-rec-row.yoga-pcos-row .ex-rec-icon {
+  background: #dcfce7;
+}
+
 .ex-rec-info { flex: 1; }
 
 .ex-rec-name {
@@ -213,6 +327,33 @@
   font-weight: 500;
   color: #1a1135;
   margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* PCOS badge inline with exercise name */
+.ex-pcos-badge {
+  font-size: 9px;
+  font-weight: 600;
+  background: #8b1aad;
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Yoga-PCOS badge */
+.ex-yoga-badge {
+  font-size: 9px;
+  font-weight: 600;
+  background: #0f7a50;
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .ex-rec-meta {
@@ -229,6 +370,16 @@
   padding: 2px 8px;
   border-radius: 99px;
   font-weight: 500;
+}
+
+.ex-rec-tag.pcos-tag {
+  background: #fce7ff;
+  color: #8b1aad;
+}
+
+.ex-rec-tag.yoga-tag {
+  background: #dcfce7;
+  color: #0f7a50;
 }
 
 .ex-rec-dur {
@@ -285,6 +436,14 @@
   flex-shrink: 0;
 }
 
+.ex-step-num.pcos-step {
+  background: #8b1aad;
+}
+
+.ex-step-num.yoga-step {
+  background: #0f7a50;
+}
+
 .ex-step-text {
   font-size: 12px;
   color: #5a5070;
@@ -295,7 +454,7 @@
 /* ── What to avoid ── */
 .ex-avoid-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin-bottom: 1rem;
 }
@@ -379,7 +538,6 @@
   color: #5B3FBF;
 }
 
-/* remove × inside pill */
 .ex-act-tag-remove {
   background: transparent;
   border: none;
@@ -395,7 +553,6 @@
 
 .ex-act-tag-remove:hover { opacity: 1; }
 
-/* custom activity row */
 .ex-custom-activity {
   display: flex;
   gap: 8px;
@@ -596,6 +753,10 @@
 }
 
 /* ── Responsive ── */
+@media (max-width: 1100px) {
+  .ex-avoid-list { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 900px) {
   .ex-avoid-list { grid-template-columns: repeat(2, 1fr); }
 }

@@ -22,7 +22,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       {/* Logo */}
-      <div className="logo">PCOS Tracker</div>
+      <div className="logo">PCOS Care</div>
 
       {/* Desktop Nav Links */}
       <ul className="nav-links desktop-links">

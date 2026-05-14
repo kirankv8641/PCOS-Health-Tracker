@@ -1,50 +1,72 @@
 import { useState, useEffect } from "react";
+import api from "../services/api";
 import "./Symptoms.css";
 
 const SYMPTOM_LIBRARY = [
-  { icon: "🧴", name: "Acne", cat: "Skin" },
-  { icon: "💇", name: "Hair loss", cat: "Hair" },
-  { icon: "🌱", name: "Hair thinning", cat: "Hair" },
-  { icon: "⚖️", name: "Weight gain", cat: "Body" },
-  { icon: "😴", name: "Fatigue", cat: "Energy" },
-  { icon: "😟", name: "Mood swings", cat: "Mental" },
-  { icon: "😰", name: "Anxiety", cat: "Mental" },
-  { icon: "🍽️", name: "Bloating", cat: "Digestive" },
-  { icon: "🌡️", name: "Cramps", cat: "Pain" },
-  { icon: "🤕", name: "Headache", cat: "Pain" },
-  { icon: "🌙", name: "Insomnia", cat: "Sleep" },
-  { icon: "💧", name: "Oily skin", cat: "Skin" },
-  { icon: "🍬", name: "Sugar cravings", cat: "Digestive" },
-  { icon: "🩸", name: "Irregular periods", cat: "Cycle" },
-  { icon: "❄️", name: "Cold hands/feet", cat: "Body" },
-  { icon: "💪", name: "Joint pain", cat: "Pain" },
+  { icon: "🧴", name: "Acne",             cat: "Skin"      },
+  { icon: "💇", name: "Hair loss",         cat: "Hair"      },
+  { icon: "🌱", name: "Hair thinning",     cat: "Hair"      },
+  { icon: "⚖️", name: "Weight gain",       cat: "Body"      },
+  { icon: "😴", name: "Fatigue",           cat: "Energy"    },
+  { icon: "😟", name: "Mood swings",       cat: "Mental"    },
+  { icon: "😰", name: "Anxiety",           cat: "Mental"    },
+  { icon: "🍽️", name: "Bloating",          cat: "Digestive" },
+  { icon: "🌡️", name: "Cramps",            cat: "Pain"      },
+  { icon: "🤕", name: "Headache",          cat: "Pain"      },
+  { icon: "🌙", name: "Insomnia",          cat: "Sleep"     },
+  { icon: "💧", name: "Oily skin",         cat: "Skin"      },
+  { icon: "🍬", name: "Sugar cravings",    cat: "Digestive" },
+  { icon: "🩸", name: "Irregular periods", cat: "Cycle"     },
+  { icon: "❄️", name: "Cold hands/feet",   cat: "Body"      },
+  { icon: "💪", name: "Joint pain",        cat: "Pain"      },
 ];
 
 const CATS = ["All", ...Array.from(new Set(SYMPTOM_LIBRARY.map((s) => s.cat)))];
 
-const getLabel = (v) => ["None", "Mild", "Moderate", "Severe"][v];
+const getLabel      = (v) => ["None", "Mild", "Moderate", "Severe"][v];
 const getBadgeClass = (v) => ["badge-none", "badge-mild", "badge-mod", "badge-sev"][v];
 const getTrackColor = (v) => ["#EDE8FF", "#C9BCFF", "#E09ED6", "#993356"][v];
 
 export default function Symptoms() {
   const [activeSymptoms, setActiveSymptoms] = useState(["Acne", "Fatigue", "Cramps"]);
-  const [values, setValues] = useState({});
-  const [notes, setNotes] = useState("");
-  const [history, setHistory] = useState([]);
-  const [saved, setSaved] = useState(false);
-  const [filterCat, setFilterCat] = useState("All");
-  const [search, setSearch] = useState("");
-  const [showLibrary, setShowLibrary] = useState(false);
+  const [values,         setValues]         = useState({});
+  const [notes,          setNotes]          = useState("");
+  const [history,        setHistory]        = useState([]);
+  const [saved,          setSaved]          = useState(false);
+  const [filterCat,      setFilterCat]      = useState("All");
+  const [search,         setSearch]         = useState("");
+  const [showLibrary,    setShowLibrary]    = useState(false);
+  const [loading,        setLoading]        = useState(true);
 
+  // ── Load history from backend on mount ────────────────────────────────────
   useEffect(() => {
-    fetch("/api/v1/symptom-logs", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
-      .then((r) => r.json())
-      .then((data) => { if (data.success) setHistory(data.data); })
-      .catch(() => {});
+    const fetchLogs = async () => {
+      try {
+        const res = await api.get("/symptom-logs");
+        if (res.data.success) {
+          setHistory(res.data.data);
+
+          // Pre-fill today's symptoms if a log exists for today
+          const today = new Date().toISOString().slice(0, 10);
+          const todayLog = res.data.data.find((l) => l.date === today);
+          if (todayLog && todayLog.symptoms.length > 0) {
+            setActiveSymptoms(todayLog.symptoms.map((s) => s.name));
+            const vals = {};
+            todayLog.symptoms.forEach((s) => { vals[s.name] = s.severity; });
+            setValues(vals);
+            setNotes(todayLog.notes || "");
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load symptom logs:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLogs();
   }, []);
 
+  // ── Toggle symptom in active list ─────────────────────────────────────────
   const toggleSymptom = (name) => {
     setActiveSymptoms((prev) =>
       prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
@@ -64,40 +86,59 @@ export default function Symptoms() {
   const sevCount  = activeSymptoms.filter((n) => getVal(n) === 3).length;
 
   const filteredLibrary = SYMPTOM_LIBRARY.filter((s) => {
-    const matchCat = filterCat === "All" || s.cat === filterCat;
+    const matchCat    = filterCat === "All" || s.cat === filterCat;
     const matchSearch = s.name.toLowerCase().includes(search.toLowerCase());
     return matchCat && matchSearch;
   });
 
+  // ── Save today's log to backend ───────────────────────────────────────────
   const saveLog = async () => {
     const active = activeSymptoms
       .filter((n) => getVal(n) > 0)
       .map((n) => ({ name: n, severity: getVal(n) }));
+
     if (!active.length) return;
 
     try {
-      const res = await fetch("/api/v1/symptom-logs", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ symptoms: active, notes }),
-      });
-      if (!res.ok) throw new Error("Failed");
+      const res = await api.post("/symptom-logs", { symptoms: active, notes });
 
-      const today = new Date().toLocaleDateString("en-US", {
-        month: "long", day: "numeric", year: "numeric",
-      });
-      setHistory((prev) => [{ date: today, symptoms: active }, ...prev]);
-      setValues({});
-      setNotes("");
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      if (res.data.success) {
+        // Refresh history — replace today's entry if it exists, else prepend
+        const today = new Date().toISOString().slice(0, 10);
+        setHistory((prev) => {
+          const filtered = prev.filter((l) => l.date !== today);
+          return [res.data.data, ...filtered];
+        });
+
+        setValues({});
+        setNotes("");
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Failed to save symptom log:", err);
     }
   };
+
+  // ── Delete a log from history ─────────────────────────────────────────────
+  const deleteLog = async (logId) => {
+    try {
+      await api.delete(`/symptom-logs/${logId}`);
+      setHistory((prev) => prev.filter((l) => l._id !== logId));
+    } catch (err) {
+      console.error("Failed to delete symptom log:", err);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="sym-page">
+        <div style={{ textAlign: "center", padding: "4rem", color: "#9b89cc" }}>
+          Loading your symptom data...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="sym-page">
@@ -151,7 +192,7 @@ export default function Symptoms() {
 
           {activeSymptoms.map((name) => {
             const sym = SYMPTOM_LIBRARY.find((s) => s.name === name) || { icon: "🔵", name, cat: "" };
-            const v = getVal(name);
+            const v   = getVal(name);
             const pct = (v / 3) * 100;
             return (
               <div className="sym-row" key={name}>
@@ -264,7 +305,7 @@ export default function Symptoms() {
             <p className="sym-empty">No logs yet. Start tracking today!</p>
           )}
           {history.map((h, i) => (
-            <div className="sym-hist-row" key={i}>
+            <div className="sym-hist-row" key={h._id || i}>
               <div className="sym-hist-date">{h.date}</div>
               <div className="sym-hist-pills">
                 {h.symptoms.map((s, j) => (
@@ -273,6 +314,14 @@ export default function Symptoms() {
                   </span>
                 ))}
               </div>
+              {h._id && (
+                <button
+                  className="sym-remove-btn"
+                  onClick={() => deleteLog(h._id)}
+                  title="Delete log"
+                  style={{ marginLeft: "auto" }}
+                >✕</button>
+              )}
             </div>
           ))}
         </div>

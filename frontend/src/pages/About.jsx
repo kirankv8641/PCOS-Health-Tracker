@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./About.css";
 
 const pcosFactoids = [
-  { icon: "👩", stat: "1 in 10", label: "Women of reproductive age have PCOS — one of the most common hormonal disorders worldwide." },
+  { icon: "👩", stat: "1 in 5", label: "Women of reproductive age have PCOS — one of the most common hormonal disorders worldwide." },
   { icon: "⏳", stat: "2–3 yrs", label: "Average time to get a PCOS diagnosis due to overlapping and variable symptoms." },
   { icon: "🧬", stat: "30+",     label: "Possible symptoms — from irregular periods to hair loss, acne, fatigue, and mood changes." },
   { icon: "📋", stat: "70%",     label: "Of women with PCOS remain undiagnosed, often mistaking symptoms for something else." },

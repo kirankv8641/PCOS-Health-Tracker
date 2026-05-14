@@ -9,6 +9,8 @@ import Exercise from "./pages/Exercise";
 import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import AuthFlow from './pages/AuthFlow';
+import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 
 // routes
 
@@ -28,6 +30,8 @@ function App() {
        <Route path="/auth" element={<AuthFlow />} />
        <Route path="/register" element={<AuthFlow />} />
        <Route path="/login" element={<AuthFlow />} />
+       <Route path="/profile" element={<Profile />} />
+       <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
 
     </Router>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "../services/api";
 import "./Diet.css";
 
 const RECOMMENDED_MEALS = [
@@ -26,98 +27,216 @@ const PCOS_TEAS = [
 ];
 
 const DAILY_CALORIE_GOAL = 1800;
-const DAILY_WATER_GOAL = 8;
+const DAILY_WATER_GOAL   = 8;
+const TODAY = new Date().toISOString().slice(0, 10);
 
 export default function Diet() {
-  const [mealsEaten, setMealsEaten] = useState([
-    { name: "Oats with Milk", cal: 280, time: "08:00 AM" },
-    { name: "Dal & Rice", cal: 420, time: "01:00 PM" },
-  ]);
-  const [mealInput, setMealInput] = useState({ name: "", cal: "", time: "" });
-  const [showMealForm, setShowMealForm] = useState(false);
+  // ── State ──────────────────────────────────────────────────────────────────
+  const [mealsEaten,   setMealsEaten]   = useState([]);
+  const [waterGlasses, setWaterGlasses] = useState(0);
+  const [waterLogs,    setWaterLogs]    = useState([]);
+  const [seedLogs,     setSeedLogs]     = useState([]);
+  const [teaLogs,      setTeaLogs]      = useState([]);
+  const [addedMeals,   setAddedMeals]   = useState([]);
+  const [docId,        setDocId]        = useState(null); // today's DietLog _id
 
-  const [waterGlasses, setWaterGlasses] = useState(3);
-  const [waterLogs, setWaterLogs] = useState([
-    { amount: "1 glass", glasses: 1, time: "07:30 AM" },
-    { amount: "2 glasses", glasses: 2, time: "10:00 AM" },
-  ]);
+  const [mealInput,  setMealInput]  = useState({ name: "", cal: "", time: "" });
   const [waterInput, setWaterInput] = useState({ amount: "", time: "" });
+  const [seedInput,  setSeedInput]  = useState({ name: "", dose: "", time: "" });
+  const [teaInput,   setTeaInput]   = useState({ name: "", cups: "", time: "" });
+
+  const [showMealForm,  setShowMealForm]  = useState(false);
   const [showWaterForm, setShowWaterForm] = useState(false);
+  const [showSeedForm,  setShowSeedForm]  = useState(false);
+  const [showTeaForm,   setShowTeaForm]   = useState(false);
 
-  const [seedLogs, setSeedLogs] = useState([]);
-  const [seedInput, setSeedInput] = useState({ name: "", dose: "", time: "" });
-  const [showSeedForm, setShowSeedForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving,  setSaving]  = useState(false);
 
-  const [teaLogs, setTeaLogs] = useState([]);
-  const [teaInput, setTeaInput] = useState({ name: "", cups: "", time: "" });
-  const [showTeaForm, setShowTeaForm] = useState(false);
+  // ── Load today's log on mount ──────────────────────────────────────────────
+  useEffect(() => {
+    const fetchLogs = async () => {
+      try {
+        const res = await api.get("/diet-logs");
+        if (res.data.success) {
+          const todayLog = res.data.data.find(d => d.date === TODAY);
+          if (todayLog) {
+            setDocId(todayLog._id);
+            setMealsEaten(todayLog.meals       || []);
+            setWaterLogs(todayLog.waterLogs    || []);
+            setSeedLogs(todayLog.seedLogs      || []);
+            setTeaLogs(todayLog.teaLogs        || []);
+            setWaterGlasses(todayLog.waterGlasses || 0);
+            setAddedMeals((todayLog.meals || []).map(m => m.name));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load diet logs:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLogs();
+  }, []);
 
-  const [addedMeals, setAddedMeals] = useState([]);
+  // ── Helper: save full day to backend ──────────────────────────────────────
+  const saveToBackend = async (updatedMeals, updatedWaterLogs, updatedSeedLogs, updatedTeaLogs) => {
+    setSaving(true);
+    try {
+      const res = await api.post("/diet-logs", {
+        date:      TODAY,
+        meals:     updatedMeals,
+        waterLogs: updatedWaterLogs,
+        seedLogs:  updatedSeedLogs,
+        teaLogs:   updatedTeaLogs,
+      });
+      if (res.data.success) {
+        setDocId(res.data.data._id);
+      }
+    } catch (err) {
+      console.error("Failed to save diet log:", err);
+    } finally {
+      setSaving(false);
+    }
+  };
 
-  const totalCal = mealsEaten.reduce((sum, m) => sum + Number(m.cal), 0);
+  // ── Derived values ─────────────────────────────────────────────────────────
+  const totalCal  = mealsEaten.reduce((sum, m) => sum + Number(m.cal), 0);
   const remaining = DAILY_CALORIE_GOAL - totalCal;
-  const calPct = Math.min((totalCal / DAILY_CALORIE_GOAL) * 100, 100);
-  const waterPct = Math.min((waterGlasses / DAILY_WATER_GOAL) * 100, 100);
+  const calPct    = Math.min((totalCal / DAILY_CALORIE_GOAL) * 100, 100);
+  const waterPct  = Math.min((waterGlasses / DAILY_WATER_GOAL) * 100, 100);
 
-  const addMeal = () => {
+  // ── Meals ──────────────────────────────────────────────────────────────────
+  const addMeal = async () => {
     if (!mealInput.name || !mealInput.cal) return;
-    setMealsEaten((p) => [...p, { ...mealInput, cal: Number(mealInput.cal) }]);
+    const newMeal = { ...mealInput, cal: Number(mealInput.cal) };
+    const updated = [...mealsEaten, newMeal];
+    setMealsEaten(updated);
     setMealInput({ name: "", cal: "", time: "" });
     setShowMealForm(false);
+    await saveToBackend(updated, waterLogs, seedLogs, teaLogs);
   };
 
-  const removeMeal = (index) => {
-    setMealsEaten((p) => p.filter((_, i) => i !== index));
+  const removeMeal = async (index) => {
+    const updated = mealsEaten.filter((_, i) => i !== index);
+    setMealsEaten(updated);
+    setAddedMeals(updated.map(m => m.name));
+    await saveToBackend(updated, waterLogs, seedLogs, teaLogs);
   };
 
-  const addRecommendedMeal = (meal) => {
-    setMealsEaten((p) => [...p, { name: meal.name, cal: meal.cal, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) }]);
-    setAddedMeals((p) => [...p, meal.name]);
+  const addRecommendedMeal = async (meal) => {
+    if (addedMeals.includes(meal.name)) return;
+    const newMeal = {
+      name: meal.name,
+      cal:  meal.cal,
+      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+    };
+    const updated = [...mealsEaten, newMeal];
+    setMealsEaten(updated);
+    setAddedMeals(p => [...p, meal.name]);
+    await saveToBackend(updated, waterLogs, seedLogs, teaLogs);
   };
 
-  const addWater = () => {
+  // ── Water ──────────────────────────────────────────────────────────────────
+  const addWater = async () => {
     const glasses = Number(waterInput.amount) || 1;
-    setWaterGlasses((p) => Math.min(p + glasses, DAILY_WATER_GOAL));
-    setWaterLogs((p) => [...p, { amount: `${glasses} glass${glasses > 1 ? "es" : ""}`, glasses, time: waterInput.time || "Now" }]);
+    const newLog  = {
+      amount:  `${glasses} glass${glasses > 1 ? "es" : ""}`,
+      glasses,
+      time:    waterInput.time || "Now",
+    };
+    const updatedLogs    = [...waterLogs, newLog];
+    const updatedGlasses = Math.min(waterGlasses + glasses, DAILY_WATER_GOAL);
+    setWaterLogs(updatedLogs);
+    setWaterGlasses(updatedGlasses);
     setWaterInput({ amount: "", time: "" });
     setShowWaterForm(false);
+    await saveToBackend(mealsEaten, updatedLogs, seedLogs, teaLogs);
   };
 
-  const removeWaterLog = (index) => {
-    const removed = waterLogs[index];
-    setWaterGlasses((p) => Math.max(0, p - (removed.glasses || 1)));
-    setWaterLogs((p) => p.filter((_, i) => i !== index));
+  const removeWaterLog = async (index) => {
+    const removed        = waterLogs[index];
+    const updatedLogs    = waterLogs.filter((_, i) => i !== index);
+    const updatedGlasses = Math.max(0, waterGlasses - (removed.glasses || 1));
+    setWaterLogs(updatedLogs);
+    setWaterGlasses(updatedGlasses);
+    await saveToBackend(mealsEaten, updatedLogs, seedLogs, teaLogs);
   };
 
-  const addSeed = () => {
+  const handleGlassClick = async (i) => {
+    const newGlasses = i + 1;
+    setWaterGlasses(newGlasses);
+    // Update waterLogs to reflect the new glass count
+    const updatedLogs = waterLogs.length > 0 ? waterLogs : [{ amount: `${newGlasses} glasses`, glasses: newGlasses, time: "Now" }];
+    await saveToBackend(mealsEaten, updatedLogs, seedLogs, teaLogs);
+  };
+
+  // ── Seeds ──────────────────────────────────────────────────────────────────
+  const addSeed = async () => {
     if (!seedInput.name) return;
-    setSeedLogs((p) => [...p, { ...seedInput, time: seedInput.time || "Now" }]);
+    const newSeed  = { ...seedInput, time: seedInput.time || "Now" };
+    const updated  = [...seedLogs, newSeed];
+    setSeedLogs(updated);
     setSeedInput({ name: "", dose: "", time: "" });
     setShowSeedForm(false);
+    await saveToBackend(mealsEaten, waterLogs, updated, teaLogs);
   };
 
-  const removeSeedLog = (index) => {
-    setSeedLogs((p) => p.filter((_, i) => i !== index));
+  const removeSeedLog = async (index) => {
+    const updated = seedLogs.filter((_, i) => i !== index);
+    setSeedLogs(updated);
+    await saveToBackend(mealsEaten, waterLogs, updated, teaLogs);
   };
 
-  const addTea = () => {
+  const addSeedFromCard = async (seed) => {
+    const newSeed = {
+      name: seed.name,
+      dose: seed.dose,
+      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+    };
+    const updated = [...seedLogs, newSeed];
+    setSeedLogs(updated);
+    await saveToBackend(mealsEaten, waterLogs, updated, teaLogs);
+  };
+
+  // ── Teas ───────────────────────────────────────────────────────────────────
+  const addTea = async () => {
     if (!teaInput.name) return;
-    setTeaLogs((p) => [...p, { ...teaInput, time: teaInput.time || "Now" }]);
+    const newTea  = { ...teaInput, time: teaInput.time || "Now" };
+    const updated = [...teaLogs, newTea];
+    setTeaLogs(updated);
     setTeaInput({ name: "", cups: "", time: "" });
     setShowTeaForm(false);
+    await saveToBackend(mealsEaten, waterLogs, seedLogs, updated);
   };
 
-  const removeTeaLog = (index) => {
-    setTeaLogs((p) => p.filter((_, i) => i !== index));
+  const removeTeaLog = async (index) => {
+    const updated = teaLogs.filter((_, i) => i !== index);
+    setTeaLogs(updated);
+    await saveToBackend(mealsEaten, waterLogs, seedLogs, updated);
   };
 
-  const addSeedFromCard = (seed) => {
-    setSeedLogs((p) => [...p, { name: seed.name, dose: seed.dose, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) }]);
+  const addTeaFromCard = async (tea) => {
+    const newTea = {
+      name: tea.name,
+      cups: tea.cups,
+      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+    };
+    const updated = [...teaLogs, newTea];
+    setTeaLogs(updated);
+    await saveToBackend(mealsEaten, waterLogs, seedLogs, updated);
   };
 
-  const addTeaFromCard = (tea) => {
-    setTeaLogs((p) => [...p, { name: tea.name, cups: tea.cups, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) }]);
-  };
+  // ── Render ─────────────────────────────────────────────────────────────────
+  if (loading) {
+    return (
+      <div className="diet-page">
+        <div style={{ textAlign: "center", padding: "4rem", color: "#9b89cc" }}>
+          Loading your diet data...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="diet-page">
@@ -126,6 +245,7 @@ export default function Diet() {
         <div className="diet-eyebrow">Diet Tracker</div>
         <h1 className="diet-title">Your <em>daily</em> nutrition</h1>
         <p className="diet-sub">Track what you eat, stay hydrated, and follow PCOS-friendly habits</p>
+        {saving && <p style={{ color: "#9b89cc", fontSize: "13px", marginTop: "4px" }}>Saving...</p>}
       </div>
 
       <div className="diet-grid">
@@ -156,10 +276,10 @@ export default function Diet() {
           </div>
           <div className="diet-macro-row">
             {[
-              { label: "Carbs", pct: "45%", color: "#f9a8d4" },
+              { label: "Carbs",    pct: "45%", color: "#f9a8d4" },
               { label: "Proteins", pct: "25%", color: "#93c5fd" },
-              { label: "Fats", pct: "20%", color: "#86efac" },
-              { label: "Fiber", pct: "10%", color: "#fde68a" },
+              { label: "Fats",     pct: "20%", color: "#86efac" },
+              { label: "Fiber",    pct: "10%", color: "#fde68a" },
             ].map((m) => (
               <div className="diet-macro-item" key={m.label}>
                 <div className="diet-macro-dot" style={{ background: m.color }} />
@@ -178,7 +298,6 @@ export default function Diet() {
               {showMealForm ? "✕ Cancel" : "+ Add Meal"}
             </button>
           </div>
-
           {showMealForm && (
             <div className="diet-form">
               <input className="diet-input" placeholder="Meal name" value={mealInput.name}
@@ -190,7 +309,6 @@ export default function Diet() {
               <button className="diet-save-btn" onClick={addMeal}>Save Meal</button>
             </div>
           )}
-
           <div className="diet-list">
             {mealsEaten.map((m, i) => (
               <div className="diet-list-row" key={i}>
@@ -226,7 +344,7 @@ export default function Diet() {
                 </div>
                 <button
                   className={`diet-rec-add ${addedMeals.includes(m.name) ? "added" : ""}`}
-                  onClick={() => !addedMeals.includes(m.name) && addRecommendedMeal(m)}
+                  onClick={() => addRecommendedMeal(m)}
                 >
                   {addedMeals.includes(m.name) ? "✓" : "+"}
                 </button>
@@ -243,7 +361,6 @@ export default function Diet() {
               {showWaterForm ? "✕ Cancel" : "+ Add"}
             </button>
           </div>
-
           {showWaterForm && (
             <div className="diet-form">
               <input className="diet-input" type="number" placeholder="No. of glasses" value={waterInput.amount}
@@ -253,11 +370,13 @@ export default function Diet() {
               <button className="diet-save-btn" onClick={addWater}>Log Water</button>
             </div>
           )}
-
           <div className="diet-water-glasses">
             {Array.from({ length: DAILY_WATER_GOAL }).map((_, i) => (
-              <div key={i} className={`diet-glass ${i < waterGlasses ? "filled" : ""}`}
-                onClick={() => setWaterGlasses(i + 1)} title={`${i + 1} glass${i > 0 ? "es" : ""}`}>
+              <div key={i}
+                className={`diet-glass ${i < waterGlasses ? "filled" : ""}`}
+                onClick={() => handleGlassClick(i)}
+                title={`${i + 1} glass${i > 0 ? "es" : ""}`}
+              >
                 💧
               </div>
             ))}
@@ -268,7 +387,6 @@ export default function Diet() {
             </div>
             <span className="diet-water-count">{waterGlasses} / {DAILY_WATER_GOAL} glasses</span>
           </div>
-
           <div className="diet-list" style={{ marginTop: "1rem" }}>
             {waterLogs.map((w, i) => (
               <div className="diet-list-row" key={i}>
@@ -291,7 +409,6 @@ export default function Diet() {
               {showSeedForm ? "✕ Cancel" : "+ Log Seed"}
             </button>
           </div>
-
           {showSeedForm && (
             <div className="diet-form">
               <select className="diet-input" value={seedInput.name}
@@ -306,7 +423,6 @@ export default function Diet() {
               <button className="diet-save-btn" onClick={addSeed}>Log Seed</button>
             </div>
           )}
-
           <div className="diet-seed-cards">
             {PCOS_SEEDS.map((s, i) => (
               <div className="diet-seed-card" key={i}>
@@ -323,7 +439,6 @@ export default function Diet() {
               </div>
             ))}
           </div>
-
           {seedLogs.length > 0 && (
             <div className="diet-list" style={{ marginTop: "1rem" }}>
               <div className="diet-list-subhead">Today's seed log</div>
@@ -350,7 +465,6 @@ export default function Diet() {
               {showTeaForm ? "✕ Cancel" : "+ Log Tea"}
             </button>
           </div>
-
           {showTeaForm && (
             <div className="diet-form diet-form-inline">
               <select className="diet-input" value={teaInput.name}
@@ -365,7 +479,6 @@ export default function Diet() {
               <button className="diet-save-btn" onClick={addTea}>Log Tea</button>
             </div>
           )}
-
           <div className="diet-tea-grid">
             {PCOS_TEAS.map((t, i) => (
               <div className="diet-tea-card" key={i}>
@@ -379,7 +492,6 @@ export default function Diet() {
               </div>
             ))}
           </div>
-
           {teaLogs.length > 0 && (
             <div className="diet-list" style={{ marginTop: "1.25rem" }}>
               <div className="diet-list-subhead">Today's tea log</div>
