@@ -64,6 +64,48 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
+// Save Reminders
+exports.saveReminders = async (req, res) => {
+  try {
+    const { reminders } = req.body;
+
+    if (!Array.isArray(reminders)) {
+      return res.status(400).json({ success: false, message: "Reminders must be an array" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { reminders },
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Reminders saved successfully",
+      data: user.reminders
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// Get Reminders
+exports.getReminders = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("reminders");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    res.status(200).json({ success: true, data: user.reminders });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 // Delete Account
 exports.deleteAccount = async (req, res) => {
   try {

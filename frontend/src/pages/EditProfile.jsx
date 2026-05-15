@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./EditProfile.css";
+import { sendTestNotification, requestNotificationPermission } from "../services/Notification";
 
 const SYMPTOMS = [
   "cramps", "bloating", "mood swings", "headache", "fatigue",
@@ -14,10 +15,7 @@ const GENDERS = ["Female", "Male", "Non-binary", "Prefer not to say"];
 
 function Toggle({ checked, onChange }) {
   return (
-    <div
-      onClick={onChange}
-      className={`prof-toggle ${checked ? "on" : ""}`}
-    >
+    <div onClick={onChange} className={`prof-toggle ${checked ? "on" : ""}`}>
       <div className="prof-toggle-knob" />
     </div>
   );
@@ -25,9 +23,9 @@ function Toggle({ checked, onChange }) {
 
 export default function EditProfile() {
   const navigate = useNavigate();
-  const [loading, setLoading]   = useState(true);
-  const [saving, setSaving]     = useState(false);
-  const [saved, setSaved]       = useState(false);
+  const [loading,   setLoading]   = useState(true);
+  const [saving,    setSaving]    = useState(false);
+  const [saved,     setSaved]     = useState(false);
   const [activeTab, setActiveTab] = useState("personal");
 
   const [form, setForm] = useState({
@@ -46,9 +44,7 @@ export default function EditProfile() {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then(res => {
-        if (res.data.success) {
-          setForm(f => ({ ...f, ...res.data.data }));
-        }
+        if (res.data.success) setForm(f => ({ ...f, ...res.data.data }));
       })
       .finally(() => setLoading(false));
   }, []);
@@ -68,23 +64,27 @@ export default function EditProfile() {
     try {
       setSaving(true);
       await axios.put("/api/v1/user/profile", {
-        name:               form.name,
-        age:                form.age,
-        gender:             form.gender,
-        weight:             form.weight,
-        height:             form.height,
-        lastPeriodDate:     form.lastPeriodDate,
-        cycleLength:        form.cycleLength,
-        periodDuration:     form.periodDuration,
-        commonSymptoms:     form.commonSymptoms,
-        medicalConditions:  form.medicalConditions,
-        diagnosedWithPCOS:  form.diagnosedWithPCOS,
+        name:                form.name,
+        age:                 form.age,
+        gender:              form.gender,
+        weight:              form.weight,
+        height:              form.height,
+        lastPeriodDate:      form.lastPeriodDate,
+        cycleLength:         form.cycleLength,
+        periodDuration:      form.periodDuration,
+        commonSymptoms:      form.commonSymptoms,
+        medicalConditions:   form.medicalConditions,
+        diagnosedWithPCOS:   form.diagnosedWithPCOS,
         affirmationsEnabled: form.affirmationsEnabled,
       }, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      localStorage.setItem("user", JSON.stringify({ ...JSON.parse(localStorage.getItem("user") || "{}"), ...form }));
+      localStorage.setItem("user", JSON.stringify({
+        ...JSON.parse(localStorage.getItem("user") || "{}"),
+        ...form,
+      }));
+
       setSaved(true);
       setTimeout(() => { setSaved(false); navigate("/profile"); }, 1800);
     } catch (err) {
@@ -96,8 +96,8 @@ export default function EditProfile() {
 
   const tabs = [
     { key: "personal", label: "👤 Personal" },
-    { key: "cycle",    label: "🩸 Cycle" },
-    { key: "health",   label: "💊 Health" },
+    { key: "cycle",    label: "🩸 Cycle"    },
+    { key: "health",   label: "💊 Health"   },
     { key: "settings", label: "⚙️ Settings" },
   ];
 
@@ -150,27 +150,18 @@ export default function EditProfile() {
         {/* ── Tab content ── */}
         <div className="prof-card prof-card-full">
 
-          {/* Personal */}
+          {/* ── Personal ── */}
           {activeTab === "personal" && (
             <div className="prof-form">
               <div className="prof-field">
                 <label>Full name</label>
-                <input
-                  className="prof-input"
-                  placeholder="Jane Doe"
-                  value={form.name}
-                  onChange={e => update("name", e.target.value)}
-                />
+                <input className="prof-input" placeholder="Jane Doe"
+                  value={form.name} onChange={e => update("name", e.target.value)} />
               </div>
               <div className="prof-field">
                 <label>Email</label>
-                <input
-                  className="prof-input"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={form.email}
-                  disabled
-                />
+                <input className="prof-input" type="email" placeholder="you@example.com"
+                  value={form.email} disabled />
                 <span className="prof-field-hint">Email cannot be changed</span>
               </div>
               <div className="prof-form-grid">
@@ -194,20 +185,17 @@ export default function EditProfile() {
                 <label>Gender</label>
                 <div className="prof-gender-grid">
                   {GENDERS.map(g => (
-                    <button
-                      key={g}
+                    <button key={g}
                       className={`prof-gender-btn ${form.gender === g ? "active" : ""}`}
                       onClick={() => update("gender", g)}
-                    >
-                      {g}
-                    </button>
+                    >{g}</button>
                   ))}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Cycle */}
+          {/* ── Cycle ── */}
           {activeTab === "cycle" && (
             <div className="prof-form">
               <div className="prof-field">
@@ -231,7 +219,7 @@ export default function EditProfile() {
             </div>
           )}
 
-          {/* Health */}
+          {/* ── Health ── */}
           {activeTab === "health" && (
             <div className="prof-form">
               <div className="prof-field">
@@ -240,32 +228,29 @@ export default function EditProfile() {
                   {SYMPTOMS.map(s => {
                     const on = form.commonSymptoms?.includes(s);
                     return (
-                      <button
-                        key={s}
+                      <button key={s}
                         className={`prof-symptom-btn ${on ? "active" : ""}`}
                         onClick={() => toggleSymptom(s)}
-                      >
-                        {s}
-                      </button>
+                      >{s}</button>
                     );
                   })}
                 </div>
               </div>
               <div className="prof-field">
                 <label>Medical conditions (optional)</label>
-                <textarea
-                  className="prof-textarea"
+                <textarea className="prof-textarea"
                   placeholder="e.g. PCOS, endometriosis, thyroid..."
                   value={form.medicalConditions}
-                  onChange={e => update("medicalConditions", e.target.value)}
-                />
+                  onChange={e => update("medicalConditions", e.target.value)} />
               </div>
             </div>
           )}
 
-          {/* Settings */}
+          {/* ── Settings ── */}
           {activeTab === "settings" && (
             <div className="prof-form">
+
+              {/* PCOS toggle */}
               <div className="prof-setting-row">
                 <div>
                   <div className="prof-setting-label">Diagnosed with PCOS?</div>
@@ -276,16 +261,49 @@ export default function EditProfile() {
                   onChange={() => update("diagnosedWithPCOS", !form.diagnosedWithPCOS)}
                 />
               </div>
+
+              {/* Affirmations toggle */}
               <div className="prof-setting-row">
                 <div>
-                  <div className="prof-setting-label">Daily affirmations</div>
-                  <div className="prof-setting-sub">Receive positive daily reminders</div>
+                  <div className="prof-setting-label">Daily affirmations 💜</div>
+                  <div className="prof-setting-sub">
+                    Receive a positive affirmation every morning at 8:00 AM
+                  </div>
                 </div>
                 <Toggle
                   checked={form.affirmationsEnabled}
                   onChange={() => update("affirmationsEnabled", !form.affirmationsEnabled)}
                 />
               </div>
+
+              {/* Health reminders info */}
+              <div className="prof-setting-row">
+                <div>
+                  <div className="prof-setting-label">Health reminders 🔔</div>
+                  <div className="prof-setting-sub">
+                    7:30 AM · 🚶 Morning walk &nbsp;|&nbsp;
+                    8:30 AM · 🌿 Seed cycling &nbsp;|&nbsp;
+                    9:00 AM · 💧 Water check &nbsp;|&nbsp;
+                    10:00 AM · 🍵 Spearmint tea &nbsp;|&nbsp;
+                    1:00 PM · 💧 Midday water &nbsp;|&nbsp;
+                    1:30 PM · 🍽️ Calorie check &nbsp;|&nbsp;
+                    5:00 PM · 💧 Afternoon water &nbsp;|&nbsp;
+                    5:30 PM · 🏃 Exercise &nbsp;|&nbsp;
+                    9:00 PM · 📋 Log symptoms &nbsp;|&nbsp;
+                    10:30 PM · 🌙 Sleep reminder
+                  </div>
+                </div>
+                <button
+                  className="prof-test-notif-btn"
+                  onClick={async () => {
+                    await requestNotificationPermission();
+                    sendTestNotification();
+                  }}
+                >
+                  Test 🔔
+                </button>
+              </div>
+
             </div>
           )}
 
@@ -294,11 +312,7 @@ export default function EditProfile() {
         {/* ── Save button ── */}
         <div className="prof-save-row">
           {saved && <span className="prof-saved-msg">✓ Profile saved!</span>}
-          <button
-            className="prof-save-btn"
-            onClick={handleSave}
-            disabled={saving}
-          >
+          <button className="prof-save-btn" onClick={handleSave} disabled={saving}>
             {saving ? "Saving…" : "Save changes"}
           </button>
         </div>

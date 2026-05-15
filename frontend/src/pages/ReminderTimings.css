@@ -1,0 +1,275 @@
+.rt-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── List ── */
+.rt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+/* ── Row ── */
+.rt-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: transparent;
+  transition: background 0.18s ease;
+  animation: rt-fadein 0.3s ease both;
+}
+
+.rt-row--on {
+  background: rgba(127, 119, 221, 0.06);
+}
+
+@keyframes rt-fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Icon ── */
+.rt-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(127, 119, 221, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.18s;
+}
+
+.rt-row--on .rt-icon-wrap {
+  background: rgba(127, 119, 221, 0.18);
+}
+
+.rt-icon {
+  font-size: 17px;
+  line-height: 1;
+}
+
+/* ── Text ── */
+.rt-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rt-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2d2d3a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rt-sub {
+  font-size: 12px;
+  color: #9590b8;
+}
+
+/* disabled state */
+.rt-row:not(.rt-row--on) .rt-label {
+  color: #aaa;
+}
+.rt-row:not(.rt-row--on) .rt-sub {
+  color: #ccc;
+}
+
+/* ── Time input ── */
+.rt-time {
+  border: 1px solid #e4dff7;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #534ab7;
+  background: #f6f4ff;
+  cursor: pointer;
+  outline: none;
+  min-width: 88px;
+  text-align: center;
+  transition: border-color 0.15s, opacity 0.15s;
+  -webkit-appearance: none;
+}
+
+.rt-time:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.rt-time:not(:disabled):hover {
+  border-color: #afa9ec;
+}
+
+.rt-time:not(:disabled):focus {
+  border-color: #7f77dd;
+  box-shadow: 0 0 0 3px rgba(127, 119, 221, 0.15);
+}
+
+/* ── Toggle ── */
+.rt-toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.22s ease;
+  padding: 0;
+}
+
+.rt-toggle--on {
+  background: #7f77dd;
+}
+
+.rt-toggle-thumb {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  top: 3px;
+  left: 3px;
+  transition: left 0.22s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.rt-toggle--on .rt-toggle-thumb {
+  left: 21px;
+}
+
+/* ── Save button ── */
+.rt-save {
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.1s, opacity 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.rt-save--idle,
+.rt-save--saving {
+  background: #7f77dd;
+  color: white;
+}
+
+.rt-save--idle:hover {
+  background: #6b63cc;
+}
+
+.rt-save--idle:active {
+  transform: scale(0.98);
+}
+
+.rt-save--saving {
+  opacity: 0.75;
+  cursor: default;
+}
+
+.rt-save--saved {
+  background: #e6f7ef;
+  color: #1a7a4a;
+  cursor: default;
+}
+
+.rt-save--error {
+  background: #fff0f0;
+  color: #c0392b;
+  cursor: pointer;
+}
+
+/* ── Spinner ── */
+.rt-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: rt-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes rt-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Dark mode ── */
+@media (prefers-color-scheme: dark) {
+  .rt-row--on {
+    background: rgba(127, 119, 221, 0.1);
+  }
+
+  .rt-icon-wrap {
+    background: rgba(127, 119, 221, 0.15);
+  }
+
+  .rt-row--on .rt-icon-wrap {
+    background: rgba(127, 119, 221, 0.25);
+  }
+
+  .rt-label {
+    color: #e8e6f8;
+  }
+
+  .rt-sub {
+    color: #7a76a8;
+  }
+
+  .rt-row:not(.rt-row--on) .rt-label {
+    color: #555;
+  }
+
+  .rt-row:not(.rt-row--on) .rt-sub {
+    color: #444;
+  }
+
+  .rt-time {
+    background: #1e1b33;
+    border-color: #3a3560;
+    color: #afa9ec;
+  }
+
+  .rt-time:not(:disabled):hover {
+    border-color: #7f77dd;
+  }
+
+  .rt-save--idle,
+  .rt-save--saving {
+    background: #534ab7;
+  }
+
+  .rt-save--idle:hover {
+    background: #6259c9;
+  }
+
+  .rt-save--saved {
+    background: #0d2e1e;
+    color: #5dcaa5;
+  }
+
+  .rt-save--error {
+    background: #2e0d0d;
+    color: #f09595;
+  }
+}

@@ -2,15 +2,21 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
-
-const SEVERITY_COLOR = { mild: "#22c55e", moderate: "#f59e0b", severe: "#ef4444" };
+import { requestNotificationPermission, sendTestNotification } from "../services/Notification";
+import ReminderTimings from "./ReminderTimings";
 
 export default function Profile() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user,    setUser]    = useState(null);
   const [loading, setLoading] = useState(true);
+  const [notifStatus, setNotifStatus] = useState("default"); // "default" | "granted" | "denied"
 
   useEffect(() => {
+    // Check current notification permission status
+    if ("Notification" in window) {
+      setNotifStatus(Notification.permission);
+    }
+
     const stored = localStorage.getItem("user");
     if (stored) setUser(JSON.parse(stored));
 
@@ -25,6 +31,16 @@ export default function Profile() {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  const handleEnableNotifications = async () => {
+    const granted = await requestNotificationPermission();
+    if (granted) {
+      setNotifStatus("granted");
+      sendTestNotification();
+    } else {
+      setNotifStatus("denied");
+    }
+  };
 
   const initials = user?.name
     ? user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)
@@ -48,6 +64,55 @@ export default function Profile() {
           <div className="prof-eyebrow">My Account</div>
           <h1 className="prof-title">Your <em>profile</em></h1>
         </div>
+
+        {/* ── Notification Banner ── */}
+        {notifStatus === "default" && (
+          <div className="prof-notif-banner">
+            <div className="prof-notif-banner-left">
+              <span className="prof-notif-icon">🔔</span>
+              <div>
+                <div className="prof-notif-title">Enable health reminders</div>
+                <div className="prof-notif-sub">
+                  Get daily reminders for water intake, walks, meals, seed cycling, and more
+                </div>
+              </div>
+            </div>
+            <button className="prof-notif-btn" onClick={handleEnableNotifications}>
+              Enable
+            </button>
+          </div>
+        )}
+
+        {notifStatus === "granted" && (
+          <div className="prof-notif-banner success">
+            <div className="prof-notif-banner-left">
+              <span className="prof-notif-icon">✅</span>
+              <div>
+                <div className="prof-notif-title">Notifications enabled</div>
+                <div className="prof-notif-sub">
+                  You'll receive daily health reminders and affirmations
+                </div>
+              </div>
+            </div>
+            <button className="prof-notif-btn outlined" onClick={sendTestNotification}>
+              Send test
+            </button>
+          </div>
+        )}
+
+        {notifStatus === "denied" && (
+          <div className="prof-notif-banner denied">
+            <div className="prof-notif-banner-left">
+              <span className="prof-notif-icon">🔕</span>
+              <div>
+                <div className="prof-notif-title">Notifications blocked</div>
+                <div className="prof-notif-sub">
+                  Click the 🔒 lock icon in your browser address bar → Notifications → Allow
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ── Avatar + name card ── */}
         <div className="prof-hero-card">
@@ -141,7 +206,7 @@ export default function Profile() {
             </div>
           )}
 
-          {/* ── Settings ── */}
+         {/* ── Settings ── */}
           <div className="prof-card prof-card-full">
             <div className="prof-card-label">Settings</div>
             <div className="prof-rows">
@@ -159,10 +224,23 @@ export default function Profile() {
                   {user?.affirmationsEnabled ? "Enabled" : "Disabled"}
                 </span>
               </div>
+              <div className="prof-row">
+                <span className="prof-row-icon">🔔</span>
+                <span className="prof-row-key">Notifications</span>
+                <span className={`prof-toggle-badge ${notifStatus === "granted" ? "on" : "off"}`}>
+                  {notifStatus === "granted" ? "Enabled" : notifStatus === "denied" ? "Blocked" : "Not set"}
+                </span>
+              </div>
             </div>
           </div>
 
-        </div>
+          {/* ── Reminder Timings ── */}   {/* 👈 ADD THIS BLOCK */}
+          <div className="prof-card prof-card-full">
+            <div className="prof-card-label">Reminder timings</div>
+            <ReminderTimings />
+          </div>
+
+        </div>  {/* end of prof-grid */}
 
         {/* ── Logout ── */}
         <button

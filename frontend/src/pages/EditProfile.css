@@ -417,3 +417,24 @@
     font-size: 12px;
   }
 }
+
+/* ── Test Notification Button ── */
+.prof-test-notif-btn {
+  background: #7c76f4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 99px;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.prof-test-notif-btn:hover {
+  background: #5B3FBF;
+  transform: translateY(-2px);
+}
