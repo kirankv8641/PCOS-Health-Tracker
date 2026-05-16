@@ -1,4 +1,4 @@
-const SymptomLog = require("../models/SymptomLog");
+const SymptomLog = require("../models/symptomLog");
 
 // ── GET /api/v1/symptom-logs ──────────────────────────────────────────────────
 // Returns all symptom logs for the logged-in user, newest first
