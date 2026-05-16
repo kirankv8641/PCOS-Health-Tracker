@@ -5,7 +5,7 @@ const {
   getExerciseLogs,
   createExerciseLog,
   deleteExerciseLog,
-} = require("../controllers/exerciseController");
+} = require("../controllers/ExerciseController");
 
 router.get(    "/",    protect, getExerciseLogs);
 router.post(   "/",    protect, createExerciseLog);

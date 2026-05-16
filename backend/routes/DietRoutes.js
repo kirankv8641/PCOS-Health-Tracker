@@ -7,7 +7,7 @@ const {
   addDietItem,
   deleteDietLog,
   removeDietItem,
-} = require("../controllers/dietController");
+} = require("../controllers/DietController");
 
 router.get(    "/",           protect, getDietLogs);
 router.post(   "/",           protect, createOrUpdateDietLog);
