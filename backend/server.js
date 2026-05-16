@@ -7,7 +7,7 @@ dotenv.config({ path: "./config/.env" });
 const connectDB      = require("./config/db");
 const authRoutes     = require("./routes/authRoutes");
 const userRoutes     = require("./routes/userRoutes");
-const symptomRoutes  = require("./routes/SymptomRoutes");
+const symptomRoutes  = require("./routes/symptomRoutes");
 const exerciseRoutes = require("./routes/ExerciseRoutes");
 const dietRoutes     = require("./routes/DietRoutes");
 
