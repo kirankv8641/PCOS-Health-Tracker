@@ -38,7 +38,7 @@ export default function Diet() {
   const [seedLogs,     setSeedLogs]     = useState([]);
   const [teaLogs,      setTeaLogs]      = useState([]);
   const [addedMeals,   setAddedMeals]   = useState([]);
-  const [_docId,        setDocId]        = useState(null); // today's DietLog _id
+  // const [_docId,        setDocId]        = useState(null); // today's DietLog _id
 
   const [mealInput,  setMealInput]  = useState({ name: "", cal: "", time: "" });
   const [waterInput, setWaterInput] = useState({ amount: "", time: "" });
