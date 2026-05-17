@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css');
 
 /* ── Base ── */
 .ex-page {
@@ -152,7 +153,9 @@
 .ex-bar-mins.zero { color: #C9BCFF; }
 
 .ex-goal-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: #dcfce7;
   border-radius: 8px;
   padding: 7px 14px;
@@ -203,7 +206,6 @@
   border-color: #8b1aad;
 }
 
-/* ── Yoga-PCOS filter pill ── */
 .ex-filter-pill.yoga-pcos {
   border-color: #b8e8d0;
   color: #0f7a50;
@@ -223,14 +225,27 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  background: linear-gradient(135deg, #fdf2ff 0%, #f3e8ff 100%);
+  background: #fdf2ff;
   border: 1px solid #e9b8f7;
   border-radius: 14px;
   padding: 14px 16px;
   margin-bottom: 1rem;
 }
 
-.ex-pcos-banner-icon { font-size: 22px; flex-shrink: 0; }
+/* ── PCOS banner icon ── */
+.ex-pcos-banner-icon {
+  width: 32px;
+  height: 32px;
+  background: #f3d0ff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #8b1aad;
+  font-size: 16px;
+  line-height: 1;
+}
 
 .ex-pcos-banner-title {
   font-size: 13px;
@@ -245,7 +260,7 @@
   line-height: 1.5;
 }
 
-/* ── Recommended exercises (text list) ── */
+/* ── Recommended exercises ── */
 .ex-rec-list {
   display: flex;
   flex-direction: column;
@@ -264,20 +279,13 @@
   background: #f9f7ff;
 }
 
-.ex-rec-row.pcos-row {
-  border-color: #f0d0fa;
-}
-
+.ex-rec-row.pcos-row { border-color: #f0d0fa; }
 .ex-rec-row.pcos-row.active {
   border-color: #e9b8f7;
   background: #fdf8ff;
 }
 
-/* ── Yoga-PCOS row ── */
-.ex-rec-row.yoga-pcos-row {
-  border-color: #c6f0db;
-}
-
+.ex-rec-row.yoga-pcos-row { border-color: #c6f0db; }
 .ex-rec-row.yoga-pcos-row.active {
   border-color: #86efac;
   background: #f0fdf7;
@@ -295,29 +303,32 @@
 }
 
 .ex-rec-top:hover { background: #f3f0ff; }
-
 .ex-rec-row.pcos-row .ex-rec-top:hover { background: #fdf2ff; }
-
 .ex-rec-row.yoga-pcos-row .ex-rec-top:hover { background: #f0fdf7; }
 
+/* ── Rec icon: Tabler icon ── */
 .ex-rec-icon {
-  font-size: 20px;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   background: #ede8ff;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: #7C5CBF;
+  font-size: 18px;
+  line-height: 1;
 }
 
 .ex-rec-row.pcos-row .ex-rec-icon {
   background: #fce7ff;
+  color: #8b1aad;
 }
 
 .ex-rec-row.yoga-pcos-row .ex-rec-icon {
   background: #dcfce7;
+  color: #0f7a50;
 }
 
 .ex-rec-info { flex: 1; }
@@ -332,7 +343,6 @@
   gap: 7px;
 }
 
-/* PCOS badge inline with exercise name */
 .ex-pcos-badge {
   font-size: 9px;
   font-weight: 600;
@@ -344,7 +354,6 @@
   text-transform: uppercase;
 }
 
-/* Yoga-PCOS badge */
 .ex-yoga-badge {
   font-size: 9px;
   font-weight: 600;
@@ -372,20 +381,10 @@
   font-weight: 500;
 }
 
-.ex-rec-tag.pcos-tag {
-  background: #fce7ff;
-  color: #8b1aad;
-}
+.ex-rec-tag.pcos-tag { background: #fce7ff; color: #8b1aad; }
+.ex-rec-tag.yoga-tag { background: #dcfce7; color: #0f7a50; }
 
-.ex-rec-tag.yoga-tag {
-  background: #dcfce7;
-  color: #0f7a50;
-}
-
-.ex-rec-dur {
-  font-size: 11px;
-  color: #9b89cc;
-}
+.ex-rec-dur { font-size: 11px; color: #9b89cc; }
 
 .ex-rec-benefit {
   font-size: 10px;
@@ -400,7 +399,7 @@
 }
 
 .ex-rec-expanded {
-  padding: 0 12px 14px 62px;
+  padding: 0 12px 14px 60px;
 }
 
 .ex-rec-desc {
@@ -436,13 +435,8 @@
   flex-shrink: 0;
 }
 
-.ex-step-num.pcos-step {
-  background: #8b1aad;
-}
-
-.ex-step-num.yoga-step {
-  background: #0f7a50;
-}
+.ex-step-num.pcos-step { background: #8b1aad; }
+.ex-step-num.yoga-step { background: #0f7a50; }
 
 .ex-step-text {
   font-size: 12px;
@@ -469,7 +463,20 @@
   border-radius: 12px;
 }
 
-.ex-avoid-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+/* ── Avoid icon: Tabler icon ── */
+.ex-avoid-icon {
+  width: 28px;
+  height: 28px;
+  background: #fde8c8;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #c2410c;
+  font-size: 14px;
+  line-height: 1;
+}
 
 .ex-avoid-title {
   font-size: 12px;
@@ -757,10 +764,6 @@
   .ex-avoid-list { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 900px) {
-  .ex-avoid-list { grid-template-columns: repeat(2, 1fr); }
-}
-
 @media (max-width: 768px) {
   .ex-page     { padding: 1.5rem; }
   .ex-title    { font-size: 32px; }
@@ -772,10 +775,10 @@
 }
 
 @media (max-width: 480px) {
-  .ex-page     { padding: 1rem; }
-  .ex-title    { font-size: 26px; }
-  .ex-card     { padding: 1.1rem; border-radius: 16px; }
-  .ex-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .ex-page  { padding: 1rem; }
+  .ex-title { font-size: 26px; }
+  .ex-card  { padding: 1.1rem; border-radius: 16px; }
+  .ex-stats-row  { grid-template-columns: repeat(2, 1fr); }
   .ex-avoid-list { grid-template-columns: 1fr; }
   .ex-rec-expanded { padding-left: 14px; }
 }
