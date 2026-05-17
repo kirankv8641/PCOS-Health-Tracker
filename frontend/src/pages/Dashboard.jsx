@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import api from "../services/api";
 import "./Dashboard.css";
 
-
 // ── helpers ───────────────────────────────────────────────────────────────────
 function getLast7Days() {
   return Array.from({ length: 7 }, (_, i) => {
@@ -326,11 +325,6 @@ export default function Dashboard() {
               {activeConfig.label} ({activeConfig.unit})
               <span className="db-legend-today">■ Today</span>
             </div>
-          </div>
-
-          {/* ── Wellness Score (full embed) ── */}
-          <div className="db-card db-wellness-embed">
-            <WellnessScore />
           </div>
 
           <footer className="db-footer">© 2025 PCOS Care. All rights reserved.</footer>
