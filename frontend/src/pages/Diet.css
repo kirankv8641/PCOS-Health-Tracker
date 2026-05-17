@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css');
 
 /* ── Base ── */
 .diet-page {
   font-family: 'DM Sans', sans-serif;
-  background: #ffffff;  /* changed from #c1b3f2 */
+  background: #ffffff;
   min-height: 100vh;
   padding: 2.5rem;
   color: #1a1135;
@@ -282,26 +283,33 @@
   border-radius: 12px;
 }
 
+/* ── List icon: Tabler icon centered in a pill ── */
 .diet-list-icon {
-  font-size: 20px;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background: #ede8ff;
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: #7C5CBF;
+  font-size: 16px;
+  line-height: 1;
 }
 
 .diet-list-info {
   flex: 1;
+  min-width: 0;
 }
 
 .diet-list-name {
   font-size: 14px;
   font-weight: 500;
   color: #1a1135;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .diet-list-meta {
@@ -350,7 +358,7 @@
   color: #b91c1c;
 }
 
-/* ── Rec Actions (+ and ✕ stacked) ── */
+/* ── Rec Actions ── */
 .diet-rec-actions {
   display: flex;
   flex-direction: column;
@@ -376,20 +384,24 @@
   border: 1px solid #ede8ff;
 }
 
+/* ── Rec icon: Tabler icon ── */
 .diet-rec-icon {
-  font-size: 24px;
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   background: #ede8ff;
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: #7C5CBF;
+  font-size: 18px;
+  line-height: 1;
 }
 
 .diet-rec-info {
   flex: 1;
+  min-width: 0;
 }
 
 .diet-rec-name {
@@ -426,19 +438,21 @@
 }
 
 .diet-rec-add {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: none;
   background: #7c76f4;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   transition: background 0.2s, transform 0.15s;
+  padding: 0;
+  line-height: 1;
 }
 
 .diet-rec-add:hover {
@@ -448,7 +462,7 @@
 
 .diet-rec-add.added {
   background: #22c55e;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* ── Water Glasses ── */
@@ -472,6 +486,7 @@
   transition: background 0.2s, transform 0.15s;
   filter: grayscale(1);
   opacity: 0.4;
+  color: #3b82f6;
 }
 
 .diet-glass.filled {
@@ -516,8 +531,19 @@
   margin-bottom: 8px;
 }
 
+/* ── Seed icon: Tabler icon ── */
 .diet-seed-icon {
-  font-size: 22px;
+  width: 32px;
+  height: 32px;
+  background: #ede8ff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #7C5CBF;
+  font-size: 16px;
+  line-height: 1;
 }
 
 .diet-seed-name {
@@ -557,7 +583,6 @@
   border: 1px solid #ede8ff;
   border-radius: 14px;
   padding: 12px;
-  text-align: center;
 }
 
 .diet-tea-top {
@@ -567,8 +592,19 @@
   margin-bottom: 6px;
 }
 
+/* ── Tea icon: Tabler icon ── */
 .diet-tea-icon {
-  font-size: 26px;
+  width: 30px;
+  height: 30px;
+  background: #ede8ff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #7C5CBF;
+  font-size: 16px;
+  line-height: 1;
 }
 
 .diet-tea-name {
@@ -576,7 +612,6 @@
   font-weight: 600;
   color: #1a1135;
   margin-bottom: 4px;
-  text-align: left;
 }
 
 .diet-tea-benefit {
@@ -584,109 +619,45 @@
   color: #5a5070;
   line-height: 1.4;
   margin-bottom: 6px;
-  text-align: left;
 }
 
 .diet-tea-cups {
   font-size: 10px;
   color: #7c76f4;
   font-weight: 500;
-  text-align: left;
 }
 
 /* =============================================
    RESPONSIVE BREAKPOINTS
    ============================================= */
 
-/* ── Tablet (900px) ── */
 @media (max-width: 900px) {
   .diet-tea-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* ── Tablet (768px) ── */
 @media (max-width: 768px) {
-  .diet-page {
-    padding: 1.5rem;
-  }
-
-  .diet-title {
-    font-size: 32px;
-  }
-
-  .diet-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .diet-full {
-    grid-column: 1;
-  }
-
-  .diet-seed-cards {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .diet-tea-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .diet-form-inline {
-    flex-direction: column;
-  }
-
-  .diet-form-inline .diet-input {
-    width: 100%;
-  }
-
-  .diet-cal-badges {
-    flex-direction: column;
-  }
+  .diet-page { padding: 1.5rem; }
+  .diet-title { font-size: 32px; }
+  .diet-grid { grid-template-columns: 1fr; }
+  .diet-full { grid-column: 1; }
+  .diet-seed-cards { grid-template-columns: 1fr 1fr; }
+  .diet-tea-grid { grid-template-columns: repeat(2, 1fr); }
+  .diet-form-inline { flex-direction: column; }
+  .diet-form-inline .diet-input { width: 100%; }
+  .diet-cal-badges { flex-direction: column; }
 }
 
-/* ── Mobile (480px) ── */
 @media (max-width: 480px) {
-  .diet-page {
-    padding: 1rem;
-  }
-
-  .diet-title {
-    font-size: 26px;
-  }
-
-  .diet-card {
-    padding: 1.1rem;
-    border-radius: 16px;
-  }
-
-  .diet-cal-eaten {
-    font-size: 28px;
-  }
-
-  .diet-seed-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .diet-tea-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .diet-water-glasses {
-    gap: 6px;
-  }
-
-  .diet-glass {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-
-  .diet-macro-row {
-    gap: 0.75rem;
-  }
-
-  .diet-save-btn {
-    width: 100%;
-    text-align: center;
-  }
+  .diet-page { padding: 1rem; }
+  .diet-title { font-size: 26px; }
+  .diet-card { padding: 1.1rem; border-radius: 16px; }
+  .diet-cal-eaten { font-size: 28px; }
+  .diet-seed-cards { grid-template-columns: 1fr; }
+  .diet-tea-grid { grid-template-columns: 1fr 1fr; }
+  .diet-water-glasses { gap: 6px; }
+  .diet-glass { width: 36px; height: 36px; font-size: 16px; }
+  .diet-macro-row { gap: 0.75rem; }
+  .diet-save-btn { width: 100%; text-align: center; }
 }
