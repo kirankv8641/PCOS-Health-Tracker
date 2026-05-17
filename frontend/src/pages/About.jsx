@@ -72,22 +72,22 @@ export default function About() {
         <h2 className="section-title">PCOS needs dedicated attention</h2>
         <div className="why-grid">
           <div className="why-card">
-            <div className="why-icon">🔀</div>
+            <div className="why-icon"></div>
             <h3>Hormonal complexity</h3>
             <p>PCOS involves at least four interacting hormones. Generic period trackers only log cycles — this app maps the full hormonal picture.</p>
           </div>
           <div className="why-card">
-            <div className="why-icon">🎭</div>
+            <div className="why-icon"></div>
             <h3>Symptom variety</h3>
             <p>PCOS looks different in every person. Personalised tracking reveals which symptoms are linked for you, not textbook averages.</p>
           </div>
           <div className="why-card">
-            <div className="why-icon">🔍</div>
+            <div className="why-icon"></div>
             <h3>Pattern recognition</h3>
             <p>Diet, sleep, stress — they all influence your hormones. Only consistent tracking reveals these invisible connections over time.</p>
           </div>
           <div className="why-card">
-            <div className="why-icon">🩺</div>
+            <div className="why-icon"></div>
             <h3>Doctor communication</h3>
             <p>Weeks of data instead of vague recollections transforms your appointments into productive, informed conversations.</p>
           </div>
@@ -121,22 +121,22 @@ export default function About() {
         <h2 className="section-title">Your health data belongs to you</h2>
         <div className="privacy-grid">
           <div className="privacy-card">
-            <div className="privacy-icon">🔒</div>
+            <div className="privacy-icon"></div>
             <div className="privacy-title">Encrypted</div>
             <div className="privacy-desc">Data is encrypted on your device before it ever leaves it.</div>
           </div>
           <div className="privacy-card">
-            <div className="privacy-icon">🚫</div>
+            <div className="privacy-icon"></div>
             <div className="privacy-title">Never sold</div>
             <div className="privacy-desc">We never sell, share, or monetise your health information.</div>
           </div>
           <div className="privacy-card">
-            <div className="privacy-icon">📤</div>
+            <div className="privacy-icon"></div>
             <div className="privacy-title">Export anytime</div>
             <div className="privacy-desc">Download all your data as PDF or CSV — it's always yours.</div>
           </div>
           <div className="privacy-card">
-            <div className="privacy-icon">🗑️</div>
+            <div className="privacy-icon"></div>
             <div className="privacy-title">Delete anytime</div>
             <div className="privacy-desc">Remove your account and all data in one tap, no waiting.</div>
           </div>
@@ -146,7 +146,7 @@ export default function About() {
       {/* Disclaimer */}
       <section className="about-section">
         <div className="disclaimer-box">
-          <div className="disclaimer-icon">⚕️</div>
+          <div className="disclaimer-icon"></div>
           <div>
             <div className="disclaimer-title">Medical disclaimer</div>
             <div className="disclaimer-body">
@@ -166,12 +166,12 @@ export default function About() {
         <h2 className="section-title">We're here for you</h2>
         <div className="connect-grid">
           <div className="connect-card">
-            <div className="connect-icon">💬</div>
+            <div className="connect-icon"></div>
             <div className="connect-title">Send feedback</div>
             <div className="connect-desc">Use the in-app feedback form to share suggestions or report issues.</div>
           </div>
           <div className="connect-card">
-            <div className="connect-icon">🌸</div>
+            <div className="connect-icon"></div>
             <div className="connect-title">Community</div>
             <div className="connect-desc">Join others navigating PCOS — find us on Instagram and Reddit.</div>
           </div>
@@ -180,7 +180,7 @@ export default function About() {
 
       {/* Footer */}
       <footer className="about-footer">
-        <div className="footer-logo">🌸 PCOS Health Tracker</div>
+        <div className="footer-logo"> PCOS Health Tracker</div>
         <div className="footer-meta">Version 1.0.0 &nbsp;·&nbsp; Last updated May 2025</div>
         <div className="footer-links">
           <a href="/">Privacy policy</a>

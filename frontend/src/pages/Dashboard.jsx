@@ -127,11 +127,11 @@ export default function Dashboard() {
           {/* ── Welcome ── */}
           <div className="db-welcome-row">
             <div className="db-welcome-text">
-              <h2>Hello 👋</h2>
+              <h2>Hello </h2>
               <p>Here's your health summary for today.</p>
             </div>
             <div className="db-quote-card">
-              <span className="db-quote-heart">❤️</span>
+              <span className="db-quote-heart"></span>
               <p>"Small steps every day lead to big changes."</p>
             </div>
           </div>
@@ -143,7 +143,7 @@ export default function Dashboard() {
             <div className="db-stat-card">
               <div className="db-stat-header">
                 <span className="db-stat-label">Calories Today</span>
-                <span className="db-stat-icon cal">🔥</span>
+                <span className="db-stat-icon cal"></span>
               </div>
               <div className="db-stat-value">
                 {todayCalories.toLocaleString()}
@@ -167,7 +167,7 @@ export default function Dashboard() {
             <div className="db-stat-card">
               <div className="db-stat-header">
                 <span className="db-stat-label">Water Intake</span>
-                <span className="db-stat-icon water">💧</span>
+                <span className="db-stat-icon water"></span>
               </div>
               <div className="db-stat-value">
                 {todayWater}
@@ -191,7 +191,7 @@ export default function Dashboard() {
             <div className="db-stat-card">
               <div className="db-stat-header">
                 <span className="db-stat-label">Active Minutes</span>
-                <span className="db-stat-icon act">🏃</span>
+                <span className="db-stat-icon act"></span>
               </div>
               <div className="db-stat-value">
                 {todayMins}
