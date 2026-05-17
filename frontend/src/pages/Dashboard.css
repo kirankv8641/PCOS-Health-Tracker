@@ -465,3 +465,20 @@
   .db-graph-wrap { height: 140px; }
   .db-welcome-text h2 { font-size: 22px; }
 }
+/* ── Wellness Score embed — strip internal padding so it sits flush in the card ── */
+.db-wellness-embed {
+  padding: 0;
+  overflow: hidden;
+}
+
+.db-wellness-embed .ws-page {
+  padding-bottom: 0;
+}
+
+.db-wellness-embed .ws-header {
+  padding: 2rem 2rem 1.5rem;
+}
+
+.db-wellness-embed .ws-grid {
+  padding: 0 2rem 2rem;
+}
