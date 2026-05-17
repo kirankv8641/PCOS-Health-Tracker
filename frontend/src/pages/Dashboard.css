@@ -19,11 +19,11 @@
 
 /* ── Content ── */
 .db-content {
-  padding: 2rem 2.5rem;
+  padding: 2rem 3 rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  max-width: 1100px;
+  max-width: 1400px;  /* changed from 1100px */
   margin: 0 auto;
   width: 100%;
 }
