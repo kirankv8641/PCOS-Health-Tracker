@@ -263,9 +263,9 @@ export default function Diet() {
               </div>
             </div>
             <div className="diet-cal-badges">
-              <div className="diet-badge green">✅ Eaten: {totalCal} kcal</div>
+              <div className="diet-badge green">Eaten: {totalCal} kcal</div>
               <div className={`diet-badge ${remaining >= 0 ? "purple" : "red"}`}>
-                {remaining >= 0 ? `🔥 Remaining: ${remaining} kcal` : `⚠️ Over by ${Math.abs(remaining)} kcal`}
+                {remaining >= 0 ? ` Remaining: ${remaining} kcal` : ` Over by ${Math.abs(remaining)} kcal`}
               </div>
             </div>
           </div>
@@ -294,7 +294,7 @@ export default function Diet() {
         {/* Meals Eaten */}
         <div className="diet-card">
           <div className="diet-card-header">
-            <div className="diet-label">What I Ate Today 🍽️</div>
+            <div className="diet-label">What I Ate Today </div>
             <button className="diet-add-btn" onClick={() => setShowMealForm(!showMealForm)}>
               {showMealForm ? "✕ Cancel" : "+ Add Meal"}
             </button>
@@ -329,7 +329,7 @@ export default function Diet() {
         {/* Recommended Meals */}
         <div className="diet-card">
           <div className="diet-card-header">
-            <div className="diet-label">Recommended for PCOS 💜</div>
+            <div className="diet-label">Recommended for PCOS </div>
           </div>
           <div className="diet-rec-list">
             {RECOMMENDED_MEALS.map((m, i) => (
@@ -357,7 +357,7 @@ export default function Diet() {
         {/* Water Intake */}
         <div className="diet-card">
           <div className="diet-card-header">
-            <div className="diet-label">Water Intake 💧</div>
+            <div className="diet-label">Water Intake </div>
             <button className="diet-add-btn" onClick={() => setShowWaterForm(!showWaterForm)}>
               {showWaterForm ? "✕ Cancel" : "+ Add"}
             </button>
@@ -391,7 +391,7 @@ export default function Diet() {
           <div className="diet-list" style={{ marginTop: "1rem" }}>
             {waterLogs.map((w, i) => (
               <div className="diet-list-row" key={i}>
-                <div className="diet-list-icon">💧</div>
+                <div className="diet-list-icon"></div>
                 <div className="diet-list-info">
                   <div className="diet-list-name">{w.amount}</div>
                 </div>
@@ -405,7 +405,7 @@ export default function Diet() {
         {/* PCOS Seeds */}
         <div className="diet-card">
           <div className="diet-card-header">
-            <div className="diet-label">PCOS Seed Cycling 🌿</div>
+            <div className="diet-label">PCOS Seed Cycling </div>
             <button className="diet-add-btn" onClick={() => setShowSeedForm(!showSeedForm)}>
               {showSeedForm ? "✕ Cancel" : "+ Log Seed"}
             </button>
@@ -436,7 +436,7 @@ export default function Diet() {
                   <button className="diet-rec-add" onClick={() => addSeedFromCard(s)}>+</button>
                 </div>
                 <div className="diet-seed-benefit">{s.benefit}</div>
-                <div className="diet-seed-phase">📅 {s.phase}</div>
+                <div className="diet-seed-phase">{s.phase}</div>
               </div>
             ))}
           </div>
@@ -445,7 +445,7 @@ export default function Diet() {
               <div className="diet-list-subhead">Today's seed log</div>
               {seedLogs.map((s, i) => (
                 <div className="diet-list-row" key={i}>
-                  <div className="diet-list-icon">🌿</div>
+                  <div className="diet-list-icon"></div>
                   <div className="diet-list-info">
                     <div className="diet-list-name">{s.name}</div>
                     <div className="diet-list-meta">{s.dose}</div>
@@ -461,7 +461,7 @@ export default function Diet() {
         {/* PCOS Teas */}
         <div className="diet-card diet-full">
           <div className="diet-card-header">
-            <div className="diet-label">PCOS-Friendly Teas 🍵</div>
+            <div className="diet-label">PCOS-Friendly Teas </div>
             <button className="diet-add-btn" onClick={() => setShowTeaForm(!showTeaForm)}>
               {showTeaForm ? "✕ Cancel" : "+ Log Tea"}
             </button>
@@ -489,7 +489,7 @@ export default function Diet() {
                 </div>
                 <div className="diet-tea-name">{t.name}</div>
                 <div className="diet-tea-benefit">{t.benefit}</div>
-                <div className="diet-tea-cups">☕ {t.cups}</div>
+                <div className="diet-tea-cups"> {t.cups}</div>
               </div>
             ))}
           </div>
@@ -498,7 +498,7 @@ export default function Diet() {
               <div className="diet-list-subhead">Today's tea log</div>
               {teaLogs.map((t, i) => (
                 <div className="diet-list-row" key={i}>
-                  <div className="diet-list-icon">🍵</div>
+                  <div className="diet-list-icon"></div>
                   <div className="diet-list-info">
                     <div className="diet-list-name">{t.name}</div>
                     <div className="diet-list-meta">{t.cups} cup{t.cups > 1 ? "s" : ""}</div>
