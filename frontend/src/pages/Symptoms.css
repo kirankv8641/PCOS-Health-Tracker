@@ -3,7 +3,7 @@
 /* ── Base ── */
 .sym-page {
   font-family: 'DM Sans', sans-serif;
-  background: #c1b3f2;
+  background: #ffffff;  /* changed from #c1b3f2 */
   min-height: 100vh;
   padding: 2.5rem;
   color: #1a1135;

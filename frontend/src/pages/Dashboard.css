@@ -5,7 +5,7 @@
   display: flex;
   min-height: 100vh;
   font-family: 'DM Sans', sans-serif;
-  background: #c1b3f2;
+  background: #ffffff;  /* changed from #c1b3f2 */
   color: #1a1135;
 }
 
