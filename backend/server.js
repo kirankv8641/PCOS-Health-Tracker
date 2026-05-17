@@ -16,7 +16,11 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000"],
+  origin: [
+    "http://localhost:3000",
+    "https://pcos-health-tracker.vercel.app",
+    "https://pcos-health-tracker-git-main-kv878432-8666s-projects.vercel.app"
+  ],
   credentials: true,
 }));
 app.use(express.json());
