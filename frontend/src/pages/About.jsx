@@ -183,8 +183,8 @@ export default function About() {
         <div className="footer-logo">🌸 PCOS Health Tracker</div>
         <div className="footer-meta">Version 1.0.0 &nbsp;·&nbsp; Last updated May 2025</div>
         <div className="footer-links">
-          <a href="#">Privacy policy</a>
-          <a href="#">Terms of use</a>
+          <a href="#!">Privacy policy</a>
+          <a href="#!">Terms of use</a>
         </div>
         <div className="footer-copy">Made with care for every person navigating PCOS. You are not alone.</div>
       </footer>
