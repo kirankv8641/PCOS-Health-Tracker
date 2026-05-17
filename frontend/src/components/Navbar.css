@@ -3,9 +3,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
-border-bottom: 1px solid #EDE8FF;
-color: #1a1135;
+  padding: 16px 40px;
+  background: #130f62;
   color: white;
   position: sticky;
   top: 0;
