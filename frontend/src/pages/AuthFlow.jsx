@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -276,14 +276,14 @@ function RegisterFlow({ onSwitchToLogin }) {
         setLoading(true);
 
         // 1 — Register
-        await axios.post("/api/v1/auth/register", {
+        await api.post("/auth/register", {
           name:     formData.name,
           email:    formData.email,
           password: formData.password,
         });
 
         // 2 — Login to get token
-        const loginRes = await axios.post("/api/v1/auth/login", {
+        const loginRes = await api.post("/auth/login", {
           email:    formData.email,
           password: formData.password,
         });
@@ -306,7 +306,7 @@ function RegisterFlow({ onSwitchToLogin }) {
           affirmationsEnabled: formData.affirmationsEnabled,
         };
 
-        await axios.put("/api/v1/user/profile", profilePayload, {
+        await api.put("/user/profile", profilePayload, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -389,7 +389,7 @@ function LoginFlow({ onSwitchToRegister }) {
         setLoading(true);
         setError("");
 
-        const res = await axios.post("/api/v1/auth/login", {
+        const res = await api.post("/auth/login", {
           email:    formData.email,
           password: formData.password,
         });
@@ -402,7 +402,7 @@ function LoginFlow({ onSwitchToRegister }) {
         // renders completely even before its own useEffect fires.
         let fullUser = baseUser;
         try {
-          const profileRes = await axios.get("/api/v1/user/profile", {
+          const profileRes = await api.get("/user/profile", {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (profileRes.data.success) {
