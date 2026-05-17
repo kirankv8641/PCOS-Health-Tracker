@@ -4,8 +4,8 @@ import "./About.css";
 const pcosFactoids = [
   { icon: "👩", stat: "1 in 5", label: "Women of reproductive age have PCOS — one of the most common hormonal disorders worldwide." },
   { icon: "⏳", stat: "2–3 yrs", label: "Average time to get a PCOS diagnosis due to overlapping and variable symptoms." },
-  { icon: "🧬", stat: "30+", label: "Possible symptoms — from irregular periods to hair loss, acne, fatigue, and mood changes." },
-  { icon: "📋", stat: "70%", label: "Of women with PCOS remain undiagnosed, often mistaking symptoms for something else." },
+  { icon: "🧬", stat: "30+",     label: "Possible symptoms — from irregular periods to hair loss, acne, fatigue, and mood changes." },
+  { icon: "📋", stat: "70%",     label: "Of women with PCOS remain undiagnosed, often mistaking symptoms for something else." },
 ];
 
 const faqs = [
@@ -183,10 +183,8 @@ export default function About() {
         <div className="footer-logo">🌸 PCOS Health Tracker</div>
         <div className="footer-meta">Version 1.0.0 &nbsp;·&nbsp; Last updated May 2025</div>
         <div className="footer-links">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a href="#">Privacy policy</a>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a href="#">Terms of use</a>
+          <a href="/">Privacy policy</a>
+          <a href="/">Terms of use</a>
         </div>
         <div className="footer-copy">Made with care for every person navigating PCOS. You are not alone.</div>
       </footer>
