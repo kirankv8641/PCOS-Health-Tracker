@@ -3,36 +3,36 @@ import api from "../services/api";
 import "./Exercise.css";
 
 const EXERCISES = [
-  { icon: "ti-walk", title: "Walking", tag: "Cardio", duration: "30–45 mins daily", benefit: "↓ Insulin resistance", desc: "Easy on joints, great for insulin resistance and mood.", steps: ["Start with a 5-min warm-up stroll", "Maintain a brisk but comfortable pace", "Swing arms naturally for balance", "Cool down with slow walking for 5 mins", "Aim for 7,000–10,000 steps/day"] },
-  { icon: "ti-yoga", title: "Yoga", tag: "Mind-body", duration: "20–40 mins daily", benefit: "↓ Cortisol & stress", desc: "Reduces cortisol, relieves stress and anxiety, improves flexibility.", steps: ["Begin in child's pose for 2 mins", "Flow through cat-cow stretches", "Hold warrior poses for 30 secs each", "Do legs-up-the-wall for 5 mins", "End with 5-min savasana"] },
-  { icon: "ti-barbell", title: "Strength Training", tag: "Strength", duration: "2–3 times/week", benefit: "↑ Metabolism", desc: "Builds muscle, boosts metabolism and hormone regulation.", steps: ["Warm up with 5 mins light cardio", "Start with bodyweight squats & lunges", "Add resistance bands or light dumbbells", "3 sets of 10–12 reps per exercise", "Rest 60 secs between sets"] },
-  { icon: "ti-bike", title: "Cycling", tag: "Cardio", duration: "20–30 mins/session", benefit: "♥ Heart health", desc: "Low-impact cardio that improves heart health without overexertion.", steps: ["Adjust seat to hip height", "Start at a comfortable resistance level", "Maintain 60–80 RPM cadence", "Increase resistance gradually", "Cool down at low resistance for 5 mins"] },
-  { icon: "ti-swim", title: "Swimming", tag: "Low-impact", duration: "30 mins, 3×/week", benefit: "↓ Inflammation", desc: "Full-body workout gentle on joints that reduces inflammation.", steps: ["Start with 2 easy warm-up laps", "Alternate between freestyle and breaststroke", "Rest 30 secs between laps if needed", "Focus on steady breathing rhythm", "End with gentle poolside stretching"] },
-  { icon: "ti-music", title: "Dance / Zumba", tag: "Fun cardio", duration: "30–45 mins, 3×/week", benefit: "↑ Mood & energy", desc: "Boosts mood, burns calories and keeps exercise fun and sustainable.", steps: ["Start with a slow warm-up song", "Follow the beat — no perfection needed", "Focus on full-body movement", "Take water breaks every 10 mins", "End with stretching to cool down"] },
-  { icon: "ti-stretching", title: "Pilates", tag: "PCOS-specific", duration: "30–45 mins, 3×/week", benefit: "↑ Insulin sensitivity", desc: "Pilates targets deep core muscles, improves insulin sensitivity and reduces pelvic pain common in PCOS.", steps: ["Begin with diaphragmatic breathing for 3 mins", "Do pelvic floor activation (Kegels) 10 reps", "Perform the hundred breathing exercise", "Move into single-leg stretches & scissors", "Finish with spinal articulation and hip circles"] },
-  { icon: "ti-ripple", title: "Resistance Band Training", tag: "PCOS-specific", duration: "20–30 mins, 3×/week", benefit: "↓ Androgen levels", desc: "Light resistance training helps lower androgens (testosterone), reduce facial hair, and regulate cycles without spiking cortisol.", steps: ["Choose a light-to-medium resistance band", "Perform banded squats — 3 sets × 12 reps", "Banded lateral walks — 3 × 15 each side", "Standing rows and shoulder press — 3 × 10", "Cool down with hip flexor and glute stretches"] },
-  { icon: "ti-trees", title: "Mindful Walking in Nature", tag: "PCOS-specific", duration: "20–30 mins daily", benefit: "↓ Cortisol & anxiety", desc: "Green-space walking uniquely lowers cortisol and reduces anxiety — both key drivers of PCOS flare-ups. More effective than indoor walking.", steps: ["Find a park, garden, or tree-lined path", "Leave headphones behind — focus on sounds", "Walk at a gentle, relaxed pace", "Pause and observe your surroundings every 5 mins", "Practice slow nasal breathing throughout"] },
-  { icon: "ti-body-scan", title: "PCOS Stretching Routine", tag: "PCOS-specific", duration: "15–20 mins daily", benefit: "↓ Pelvic pain", desc: "Targeted stretching reduces pelvic tension, bloating and cramping — common PCOS symptoms.", steps: ["Butterfly stretch: 60 secs", "Supine spinal twist: 30 secs each side", "Supported bridge pose: 45 secs × 3", "Happy baby pose: 60 secs", "Child's pose with side reach: 45 secs each"] },
-  { icon: "ti-run", title: "Low-Intensity Jogging", tag: "PCOS-specific", duration: "20–25 mins, 2–3×/week", benefit: "↓ Blood sugar spikes", desc: "Steady-state low-intensity jogging (not sprinting) helps flatten post-meal glucose spikes without over-stressing adrenals.", steps: ["Start with 5-min brisk walk to warm up", "Jog at a pace where you can hold a conversation", "Maintain steady pace — no bursts or sprints", "Alternate 2 min jog / 1 min walk if needed", "End with 5-min cool-down walk and stretching"] },
-  { icon: "ti-rotate-clockwise-2", title: "Bodyweight Circuit (PCOS-safe)", tag: "PCOS-specific", duration: "25–35 mins, 2×/week", benefit: "↑ SHBG levels", desc: "A PCOS-safe circuit boosts SHBG (sex hormone-binding globulin), which helps reduce free testosterone and improve cycle regularity.", steps: ["Warm up: arm circles, leg swings, 2 mins", "Squats × 15, modified push-ups × 10, glute bridges × 15", "Rest 90 secs between rounds (important!)", "Complete 3 rounds at moderate pace", "Cool down with full-body stretch, 5 mins"] },
-  { icon: "ti-yoga", title: "Malasana (Garland Pose)", tag: "Yoga-PCOS", duration: "1–2 mins hold, daily", benefit: "↑ Pelvic blood flow", desc: "Opens the hips and groin, improves blood circulation to the pelvic region, and helps relieve PCOS-related pelvic congestion and bloating.", steps: ["Stand with feet wider than hip-width", "Lower into a deep squat, heels flat or on a folded mat", "Bring palms together at chest in Namaste", "Use elbows to gently press knees outward", "Hold 60–90 secs, breathing deeply through the nose"] },
-  { icon: "ti-butterfly", title: "Baddha Konasana (Butterfly Pose)", tag: "Yoga-PCOS", duration: "3–5 mins, daily", benefit: "↓ Ovarian cysts", desc: "Stimulates the ovaries and uterus, reduces ovarian cyst size over time, and improves reproductive organ circulation.", steps: ["Sit with spine tall, bring soles of feet together", "Hold feet with both hands, knees falling outward", "Gently flap knees up and down like butterfly wings", "Fold forward slowly, maintaining a long spine", "Hold still for final 2 mins, breathing into the belly"] },
-  { icon: "ti-arrow-curve-right", title: "Dhanurasana (Bow Pose)", tag: "Yoga-PCOS", duration: "20–30 secs × 3, daily", benefit: "↑ Hormone regulation", desc: "Stimulates the adrenal glands and reproductive organs, helps regulate estrogen and progesterone, and reduces menstrual irregularity.", steps: ["Lie face-down on the mat", "Bend knees and reach back to hold ankles", "Inhale and lift chest and thighs off the mat simultaneously", "Hold the pose, breathing steadily for 20–30 secs", "Release slowly and rest in child's pose between sets"] },
-  { icon: "ti-heart", title: "Matsyasana (Fish Pose)", tag: "Yoga-PCOS", duration: "1–2 mins, daily", benefit: "↓ Thyroid dysfunction", desc: "Stretches the throat and thyroid gland, which is commonly dysregulated in PCOS, and stimulates the pineal and pituitary glands to support hormonal balance.", steps: ["Lie on your back, legs extended", "Slide hands under buttocks, palms facing down", "Inhale and lift chest, dropping the crown of the head back", "Keep weight on elbows and forearms, not the head", "Hold 60–90 secs and release slowly with a supported neck"] },
-  { icon: "ti-sun", title: "Surya Namaskar (Sun Salutation)", tag: "Yoga-PCOS", duration: "6–12 rounds, daily", benefit: "↓ Insulin resistance", desc: "A complete sequence that activates every muscle group, boosts metabolism, reduces insulin resistance, and helps with weight management — a core challenge in PCOS.", steps: ["Begin in Pranamasana (prayer pose) at the mat's edge", "Flow through: raise arms → forward fold → plank → cobra → downward dog", "Step forward and rise back to standing in one fluid breath", "Each movement linked to an inhale or exhale", "Start with 6 rounds in the morning on an empty stomach"] },
-  { icon: "ti-wind", title: "Anulom-Vilom (Alternate Nostril Breathing)", tag: "Yoga-PCOS", duration: "10–15 mins, daily", benefit: "↓ Cortisol & stress", desc: "Balances the nervous system, reduces cortisol levels, and calms adrenal overactivity — all critical for managing PCOS-driven hormonal chaos.", steps: ["Sit comfortably with spine upright", "Close right nostril with right thumb, inhale through left for 4 counts", "Close both nostrils, hold for 4 counts", "Release right nostril, exhale for 4 counts", "Repeat on opposite side; build to 15 mins over weeks"] },
-  { icon: "ti-wave-sine", title: "Bhramari Pranayama (Bee Breath)", tag: "Yoga-PCOS", duration: "5–10 mins, daily", benefit: "↓ Anxiety & mood swings", desc: "The humming vibration activates the vagus nerve, reducing anxiety, mood swings and emotional dysregulation commonly experienced in PCOS.", steps: ["Sit in a comfortable cross-legged position", "Close eyes and place index fingers gently on the tragus (ear flap)", "Inhale deeply through the nose", "Exhale slowly while making a continuous 'hmm' sound like a bee", "Repeat 8–12 rounds; feel the vibration in the skull and chest"] },
+  { icon: "", title: "Walking", tag: "Cardio", duration: "30–45 mins daily", benefit: "↓ Insulin resistance", desc: "Easy on joints, great for insulin resistance and mood.", steps: ["Start with a 5-min warm-up stroll", "Maintain a brisk but comfortable pace", "Swing arms naturally for balance", "Cool down with slow walking for 5 mins", "Aim for 7,000–10,000 steps/day"] },
+  { icon: "", title: "Yoga", tag: "Mind-body", duration: "20–40 mins daily", benefit: "↓ Cortisol & stress", desc: "Reduces cortisol, relieves stress and anxiety, improves flexibility.", steps: ["Begin in child's pose for 2 mins", "Flow through cat-cow stretches", "Hold warrior poses for 30 secs each", "Do legs-up-the-wall for 5 mins", "End with 5-min savasana"] },
+  { icon: "", title: "Strength Training", tag: "Strength", duration: "2–3 times/week", benefit: "↑ Metabolism", desc: "Builds muscle, boosts metabolism and hormone regulation.", steps: ["Warm up with 5 mins light cardio", "Start with bodyweight squats & lunges", "Add resistance bands or light dumbbells", "3 sets of 10–12 reps per exercise", "Rest 60 secs between sets"] },
+  { icon: "", title: "Cycling", tag: "Cardio", duration: "20–30 mins/session", benefit: "♥ Heart health", desc: "Low-impact cardio that improves heart health without overexertion.", steps: ["Adjust seat to hip height", "Start at a comfortable resistance level", "Maintain 60–80 RPM cadence", "Increase resistance gradually", "Cool down at low resistance for 5 mins"] },
+  { icon: "", title: "Swimming", tag: "Low-impact", duration: "30 mins, 3×/week", benefit: "↓ Inflammation", desc: "Full-body workout gentle on joints that reduces inflammation.", steps: ["Start with 2 easy warm-up laps", "Alternate between freestyle and breaststroke", "Rest 30 secs between laps if needed", "Focus on steady breathing rhythm", "End with gentle poolside stretching"] },
+  { icon: "", title: "Dance / Zumba", tag: "Fun cardio", duration: "30–45 mins, 3×/week", benefit: "↑ Mood & energy", desc: "Boosts mood, burns calories and keeps exercise fun and sustainable.", steps: ["Start with a slow warm-up song", "Follow the beat — no perfection needed", "Focus on full-body movement", "Take water breaks every 10 mins", "End with stretching to cool down"] },
+  { icon: "", title: "Pilates", tag: "PCOS-specific", duration: "30–45 mins, 3×/week", benefit: "↑ Insulin sensitivity", desc: "Pilates targets deep core muscles, improves insulin sensitivity and reduces pelvic pain common in PCOS.", steps: ["Begin with diaphragmatic breathing for 3 mins", "Do pelvic floor activation (Kegels) 10 reps", "Perform the hundred breathing exercise", "Move into single-leg stretches & scissors", "Finish with spinal articulation and hip circles"] },
+  { icon: "", title: "Resistance Band Training", tag: "PCOS-specific", duration: "20–30 mins, 3×/week", benefit: "↓ Androgen levels", desc: "Light resistance training helps lower androgens (testosterone), reduce facial hair, and regulate cycles without spiking cortisol.", steps: ["Choose a light-to-medium resistance band", "Perform banded squats — 3 sets × 12 reps", "Banded lateral walks — 3 × 15 each side", "Standing rows and shoulder press — 3 × 10", "Cool down with hip flexor and glute stretches"] },
+  { icon: "", title: "Mindful Walking in Nature", tag: "PCOS-specific", duration: "20–30 mins daily", benefit: "↓ Cortisol & anxiety", desc: "Green-space walking uniquely lowers cortisol and reduces anxiety — both key drivers of PCOS flare-ups. More effective than indoor walking.", steps: ["Find a park, garden, or tree-lined path", "Leave headphones behind — focus on sounds", "Walk at a gentle, relaxed pace", "Pause and observe your surroundings every 5 mins", "Practice slow nasal breathing throughout"] },
+  { icon: "", title: "PCOS Stretching Routine", tag: "PCOS-specific", duration: "15–20 mins daily", benefit: "↓ Pelvic pain", desc: "Targeted stretching reduces pelvic tension, bloating and cramping — common PCOS symptoms.", steps: ["Butterfly stretch: 60 secs", "Supine spinal twist: 30 secs each side", "Supported bridge pose: 45 secs × 3", "Happy baby pose: 60 secs", "Child's pose with side reach: 45 secs each"] },
+  { icon: "", title: "Low-Intensity Jogging", tag: "PCOS-specific", duration: "20–25 mins, 2–3×/week", benefit: "↓ Blood sugar spikes", desc: "Steady-state low-intensity jogging (not sprinting) helps flatten post-meal glucose spikes without over-stressing adrenals.", steps: ["Start with 5-min brisk walk to warm up", "Jog at a pace where you can hold a conversation", "Maintain steady pace — no bursts or sprints", "Alternate 2 min jog / 1 min walk if needed", "End with 5-min cool-down walk and stretching"] },
+  { icon: "", title: "Bodyweight Circuit (PCOS-safe)", tag: "PCOS-specific", duration: "25–35 mins, 2×/week", benefit: "↑ SHBG levels", desc: "A PCOS-safe circuit boosts SHBG (sex hormone-binding globulin), which helps reduce free testosterone and improve cycle regularity.", steps: ["Warm up: arm circles, leg swings, 2 mins", "Squats × 15, modified push-ups × 10, glute bridges × 15", "Rest 90 secs between rounds (important!)", "Complete 3 rounds at moderate pace", "Cool down with full-body stretch, 5 mins"] },
+  { icon: "", title: "Malasana (Garland Pose)", tag: "Yoga-PCOS", duration: "1–2 mins hold, daily", benefit: "↑ Pelvic blood flow", desc: "Opens the hips and groin, improves blood circulation to the pelvic region, and helps relieve PCOS-related pelvic congestion and bloating.", steps: ["Stand with feet wider than hip-width", "Lower into a deep squat, heels flat or on a folded mat", "Bring palms together at chest in Namaste", "Use elbows to gently press knees outward", "Hold 60–90 secs, breathing deeply through the nose"] },
+  { icon: "", title: "Baddha Konasana (Butterfly Pose)", tag: "Yoga-PCOS", duration: "3–5 mins, daily", benefit: "↓ Ovarian cysts", desc: "Stimulates the ovaries and uterus, reduces ovarian cyst size over time, and improves reproductive organ circulation.", steps: ["Sit with spine tall, bring soles of feet together", "Hold feet with both hands, knees falling outward", "Gently flap knees up and down like butterfly wings", "Fold forward slowly, maintaining a long spine", "Hold still for final 2 mins, breathing into the belly"] },
+  { icon: "", title: "Dhanurasana (Bow Pose)", tag: "Yoga-PCOS", duration: "20–30 secs × 3, daily", benefit: "↑ Hormone regulation", desc: "Stimulates the adrenal glands and reproductive organs, helps regulate estrogen and progesterone, and reduces menstrual irregularity.", steps: ["Lie face-down on the mat", "Bend knees and reach back to hold ankles", "Inhale and lift chest and thighs off the mat simultaneously", "Hold the pose, breathing steadily for 20–30 secs", "Release slowly and rest in child's pose between sets"] },
+  { icon: "", title: "Matsyasana (Fish Pose)", tag: "Yoga-PCOS", duration: "1–2 mins, daily", benefit: "↓ Thyroid dysfunction", desc: "Stretches the throat and thyroid gland, which is commonly dysregulated in PCOS, and stimulates the pineal and pituitary glands to support hormonal balance.", steps: ["Lie on your back, legs extended", "Slide hands under buttocks, palms facing down", "Inhale and lift chest, dropping the crown of the head back", "Keep weight on elbows and forearms, not the head", "Hold 60–90 secs and release slowly with a supported neck"] },
+  { icon: "", title: "Surya Namaskar (Sun Salutation)", tag: "Yoga-PCOS", duration: "6–12 rounds, daily", benefit: "↓ Insulin resistance", desc: "A complete sequence that activates every muscle group, boosts metabolism, reduces insulin resistance, and helps with weight management — a core challenge in PCOS.", steps: ["Begin in Pranamasana (prayer pose) at the mat's edge", "Flow through: raise arms → forward fold → plank → cobra → downward dog", "Step forward and rise back to standing in one fluid breath", "Each movement linked to an inhale or exhale", "Start with 6 rounds in the morning on an empty stomach"] },
+  { icon: "", title: "Anulom-Vilom (Alternate Nostril Breathing)", tag: "Yoga-PCOS", duration: "10–15 mins, daily", benefit: "↓ Cortisol & stress", desc: "Balances the nervous system, reduces cortisol levels, and calms adrenal overactivity — all critical for managing PCOS-driven hormonal chaos.", steps: ["Sit comfortably with spine upright", "Close right nostril with right thumb, inhale through left for 4 counts", "Close both nostrils, hold for 4 counts", "Release right nostril, exhale for 4 counts", "Repeat on opposite side; build to 15 mins over weeks"] },
+  { icon: "", title: "Bhramari Pranayama (Bee Breath)", tag: "Yoga-PCOS", duration: "5–10 mins, daily", benefit: "↓ Anxiety & mood swings", desc: "The humming vibration activates the vagus nerve, reducing anxiety, mood swings and emotional dysregulation commonly experienced in PCOS.", steps: ["Sit in a comfortable cross-legged position", "Close eyes and place index fingers gently on the tragus (ear flap)", "Inhale deeply through the nose", "Exhale slowly while making a continuous 'hmm' sound like a bee", "Repeat 8–12 rounds; feel the vibration in the skull and chest"] },
 ];
 
 const NOT_TO_DO = [
-  { icon: "ti-bolt-off", title: "Over-exercising", desc: "Training too hard every day spikes cortisol, worsening hormone imbalances" },
-  { icon: "ti-flame-off", title: "Daily HIIT without rest", desc: "High-intensity intervals are fine occasionally but not on consecutive days" },
-  { icon: "ti-calendar-off", title: "Skipping rest days", desc: "Rest days are when your body repairs and regulates hormones" },
-  { icon: "ti-battery-off", title: "Exercising while exhausted", desc: "Pushing through fatigue worsens adrenal stress and inflammation" },
-  { icon: "ti-player-skip-forward-filled", title: "Skipping warm-up/cool-down", desc: "Always spend 5 mins warming up and cooling down" },
-  { icon: "ti-calendar-x", title: "Irregular routine", desc: "Consistency matters far more than intensity for PCOS" },
-  { icon: "ti-leaf-off", title: "Crash-dieting + exercise", desc: "Combining very low calories with exercise spikes cortisol and worsens insulin resistance in PCOS" },
-  { icon: "ti-moon-off", title: "Exercising late at night", desc: "Evening workouts after 8 PM can disrupt melatonin and cortisol cycles, worsening hormonal imbalance" },
+  { icon: "", title: "Over-exercising", desc: "Training too hard every day spikes cortisol, worsening hormone imbalances" },
+  { icon: "", title: "Daily HIIT without rest", desc: "High-intensity intervals are fine occasionally but not on consecutive days" },
+  { icon: "", title: "Skipping rest days", desc: "Rest days are when your body repairs and regulates hormones" },
+  { icon: "", title: "Exercising while exhausted", desc: "Pushing through fatigue worsens adrenal stress and inflammation" },
+  { icon: "", title: "Skipping warm-up/cool-down", desc: "Always spend 5 mins warming up and cooling down" },
+  { icon: "", title: "Irregular routine", desc: "Consistency matters far more than intensity for PCOS" },
+  { icon: "", title: "Crash-dieting + exercise", desc: "Combining very low calories with exercise spikes cortisol and worsens insulin resistance in PCOS" },
+  { icon: "", title: "Exercising late at night", desc: "Evening workouts after 8 PM can disrupt melatonin and cortisol cycles, worsening hormonal imbalance" },
 ];
 
 const DEFAULT_ACTIVITIES = ["Walking", "Yoga", "Cycling", "Swimming", "Strength", "Zumba", "Pilates", "Resistance Band", "Running", "Skipping"];
@@ -53,22 +53,25 @@ function toDateStr(date) {
 }
 
 export default function Exercise() {
-  const [expandedEx,       setExpandedEx]       = useState(null);
-  const [activeFilter,     setActiveFilter]     = useState("All");
-  const [activityOptions,  setActivityOptions]  = useState(DEFAULT_ACTIVITIES);
-  const [selectedActivity, setSelectedActivity] = useState("Walking");
-  const [customActivity,   setCustomActivity]   = useState("");
-  const [showCustomInput,  setShowCustomInput]  = useState(false);
+  const [expandedEx,      setExpandedEx]      = useState(null);
+  const [activeFilter,    setActiveFilter]    = useState("All");
+  const [activityOptions, setActivityOptions] = useState(DEFAULT_ACTIVITIES);
+  const [selectedActivity,setSelectedActivity]= useState("Walking");
+  const [customActivity,  setCustomActivity]  = useState("");
+  const [showCustomInput, setShowCustomInput] = useState(false);
   const [form, setForm] = useState({ duration: "", intensity: "Moderate", date: "", calories: "", notes: "" });
   const [logs,    setLogs]    = useState([]);
   const [saved,   setSaved]   = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // ── Load logs from backend on mount ───────────────────────────────────────
   useEffect(() => {
     const fetchLogs = async () => {
       try {
         const res = await api.get("/exercise-logs");
-        if (res.data.success) setLogs(res.data.data);
+        if (res.data.success) {
+          setLogs(res.data.data);
+        }
       } catch (err) {
         console.error("Failed to load exercise logs:", err);
       } finally {
@@ -78,6 +81,7 @@ export default function Exercise() {
     fetchLogs();
   }, []);
 
+  // ── Weekly bar chart data ──────────────────────────────────────────────────
   const weekStart = getWeekStart();
   const weekDays  = Array.from({ length: 7 }, (_, i) => {
     const d = new Date(weekStart);
@@ -103,6 +107,7 @@ export default function Exercise() {
     return count;
   })();
 
+  // ── Save log to backend ────────────────────────────────────────────────────
   const handleSave = async () => {
     if (!form.duration) return;
     try {
@@ -126,6 +131,7 @@ export default function Exercise() {
     }
   };
 
+  // ── Delete log from backend ────────────────────────────────────────────────
   const removeLog = async (index) => {
     const log = logs[index];
     try {
@@ -136,6 +142,7 @@ export default function Exercise() {
     }
   };
 
+  // ── Custom activity management (local only) ────────────────────────────────
   const addCustomActivity = () => {
     const trimmed = customActivity.trim();
     if (!trimmed || activityOptions.includes(trimmed)) return;
@@ -168,6 +175,7 @@ export default function Exercise() {
   return (
     <div className="ex-page">
 
+      {/* ── Header ── */}
       <div className="ex-header">
         <div className="ex-eyebrow">Exercise Tracker</div>
         <h1 className="ex-title">Move your body, <em>balance your hormones</em></h1>
@@ -184,8 +192,8 @@ export default function Exercise() {
           <div className="ex-stats-row">
             {[
               { n: `${totalMins}`,   l: "mins this week",      sub: "Goal: 150 min" },
-              { n: streak > 0 ? `${streak}` : "0", l: "day streak", sub: streak > 0 ? "Keep going!" : "Log today to start!" },
-              { n: `${Math.min(Math.round((totalMins / 150) * 100), 100)}%`, l: "of weekly goal", sub: totalMins >= 150 ? "Goal reached!" : `${150 - totalMins} mins to go` },
+              { n: streak > 0 ? `${streak}` : "0", l: `day streak ${streak > 0 ? "" : ""}`, sub: streak > 0 ? "Keep going!" : "Log today to start!" },
+              { n: `${Math.min(Math.round((totalMins / 150) * 100), 100)}%`, l: "of weekly goal", sub: totalMins >= 150 ? "Goal reached! " : `${150 - totalMins} mins to go` },
               { n: logs.length.toString(), l: "activities logged", sub: "total" },
             ].map((s, i) => (
               <div className="ex-stat" key={i}>
@@ -207,18 +215,13 @@ export default function Exercise() {
               </div>
             ))}
           </div>
-          {totalMins >= 150 && (
-            <div className="ex-goal-badge">
-              <i className="ti ti-confetti" aria-hidden="true" />
-              Weekly goal reached! Keep it up.
-            </div>
-          )}
+          {totalMins >= 150 && <div className="ex-goal-badge">🎉 Weekly goal reached! Keep it up.</div>}
         </div>
 
         {/* ── Recommended exercises ── */}
         <div className="ex-card ex-full">
           <div className="ex-card-header">
-            <div className="ex-label">Recommended exercises</div>
+            <div className="ex-label">Recommended exercises </div>
           </div>
           <div className="ex-filter-bar">
             {filters.map((f) => (
@@ -227,16 +230,14 @@ export default function Exercise() {
                 className={`ex-filter-pill ${activeFilter === f ? "active" : ""} ${f === "PCOS-specific" ? "pcos" : ""} ${f === "Yoga-PCOS" ? "yoga-pcos" : ""}`}
                 onClick={() => { setActiveFilter(f); setExpandedEx(null); }}
               >
-                {f === "PCOS-specific" ? "PCOS-specific" : f === "Yoga-PCOS" ? "Yoga for PCOS" : f}
+                {f === "PCOS-specific" ? " PCOS-specific" : f === "Yoga-PCOS" ? " Yoga for PCOS" : f}
               </button>
             ))}
           </div>
 
           {activeFilter === "PCOS-specific" && (
             <div className="ex-pcos-banner">
-              <div className="ex-pcos-banner-icon">
-                <i className="ti ti-sparkles" aria-hidden="true" />
-              </div>
+              <span className="ex-pcos-banner-icon"></span>
               <div>
                 <div className="ex-pcos-banner-title">PCOS-targeted exercises</div>
                 <div className="ex-pcos-banner-desc">These workouts are specifically chosen to lower androgens, improve insulin sensitivity, reduce cortisol, and support cycle regularity.</div>
@@ -245,10 +246,8 @@ export default function Exercise() {
           )}
 
           {activeFilter === "Yoga-PCOS" && (
-            <div className="ex-pcos-banner" style={{ background: "#f0fdf7", borderColor: "#86efac" }}>
-              <div className="ex-pcos-banner-icon" style={{ background: "#bbf7d0", color: "#0f7a50" }}>
-                <i className="ti ti-leaf" aria-hidden="true" />
-              </div>
+            <div className="ex-pcos-banner" style={{ background: "linear-gradient(135deg, #f0fdf7 0%, #dcfce7 100%)", borderColor: "#86efac" }}>
+              <span className="ex-pcos-banner-icon"></span>
               <div>
                 <div className="ex-pcos-banner-title" style={{ color: "#065f35" }}>Yoga & Pranayama for PCOS</div>
                 <div className="ex-pcos-banner-desc" style={{ color: "#0f7a50" }}>
@@ -262,9 +261,7 @@ export default function Exercise() {
             {filteredExercises.map((ex, i) => (
               <div key={ex.title} className={`ex-rec-row ${expandedEx === i ? "active" : ""} ${ex.tag === "PCOS-specific" ? "pcos-row" : ""} ${ex.tag === "Yoga-PCOS" ? "yoga-pcos-row" : ""}`}>
                 <div className="ex-rec-top" onClick={() => setExpandedEx(expandedEx === i ? null : i)}>
-                  <div className="ex-rec-icon">
-                    <i className={`ti ${ex.icon}`} aria-hidden="true" />
-                  </div>
+                  <div className="ex-rec-icon">{ex.icon}</div>
                   <div className="ex-rec-info">
                     <div className="ex-rec-name">
                       {ex.title}
@@ -273,7 +270,7 @@ export default function Exercise() {
                     </div>
                     <div className="ex-rec-meta">
                       <span className={`ex-rec-tag ${ex.tag === "PCOS-specific" ? "pcos-tag" : ""} ${ex.tag === "Yoga-PCOS" ? "yoga-tag" : ""}`}>{ex.tag}</span>
-                      <span className="ex-rec-dur">{ex.duration}</span>
+                      <span className="ex-rec-dur">⏱ {ex.duration}</span>
                       <span className="ex-rec-benefit">{ex.benefit}</span>
                     </div>
                   </div>
@@ -300,7 +297,7 @@ export default function Exercise() {
         {/* ── Log form ── */}
         <div className="ex-card">
           <div className="ex-card-header">
-            <div className="ex-label">Log today's activity</div>
+            <div className="ex-label">Log today's activity </div>
           </div>
 
           <div className="ex-label-sm">Select activity</div>
@@ -373,7 +370,7 @@ export default function Exercise() {
         {/* ── Activity log ── */}
         <div className="ex-card">
           <div className="ex-card-header">
-            <div className="ex-label">Activity log</div>
+            <div className="ex-label">Activity log </div>
           </div>
           {logs.length === 0 && <p className="ex-empty">No activities logged yet.</p>}
           <div className="ex-log-list">
@@ -387,9 +384,9 @@ export default function Exercise() {
                   </div>
                 </div>
                 <div className="ex-log-details">
-                  <span>{l.duration} mins</span>
-                  {l.calories > 0 && <span>{l.calories} kcal</span>}
-                  {l.date && <span>{l.date}</span>}
+                  <span>⏱ {l.duration} mins</span>
+                  {l.calories > 0 && <span> {l.calories} kcal</span>}
+                  {l.date && <span> {l.date}</span>}
                 </div>
                 {l.notes && <div className="ex-log-notes">{l.notes}</div>}
               </div>
@@ -400,14 +397,12 @@ export default function Exercise() {
         {/* ── What to avoid ── */}
         <div className="ex-card ex-full">
           <div className="ex-card-header">
-            <div className="ex-label">What to avoid</div>
+            <div className="ex-label">What to avoid </div>
           </div>
           <div className="ex-avoid-list">
             {NOT_TO_DO.map((w, i) => (
               <div className="ex-avoid-row" key={i}>
-                <div className="ex-avoid-icon">
-                  <i className={`ti ${w.icon}`} aria-hidden="true" />
-                </div>
+                <div className="ex-avoid-icon">{w.icon}</div>
                 <div className="ex-avoid-info">
                   <div className="ex-avoid-title">{w.title}</div>
                   <div className="ex-avoid-desc">{w.desc}</div>
