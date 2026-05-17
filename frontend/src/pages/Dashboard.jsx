@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../services/api";
 import "./Dashboard.css";
-import WellnessScore from "../components/WellnessScore";
+
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 function getLast7Days() {
