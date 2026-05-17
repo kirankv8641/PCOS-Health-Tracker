@@ -12,9 +12,6 @@ import About       from "./pages/About";
 import AuthFlow    from "./pages/AuthFlow";
 import Profile     from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
-import WellnessScore from "./components/WellnessScore";
-
-
 
 
 import { initNotifications } from "./services/Notification";
@@ -43,7 +40,6 @@ function App() {
         <Route path="/login"       element={<AuthFlow />}    />
         <Route path="/profile"     element={<Profile />}     />
         <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/Wellness" element={<WellnessScore />} />
       </Routes>
     </Router>
   );
