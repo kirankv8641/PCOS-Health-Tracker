@@ -4,42 +4,42 @@ import "./Diet.css";
 
 // ── Indian PCOS-friendly meals ─────────────────────────────────────────────
 const RECOMMENDED_MEALS = [
-  { icon: "🥣", name: "Daliya (Broken Wheat Porridge)", cal: 220, tag: "Breakfast", benefit: "Low GI, keeps blood sugar stable" },
-  { icon: "🫘", name: "Moong Dal Chilla", cal: 180, tag: "Breakfast", benefit: "High protein, hormone-friendly" },
-  { icon: "🥗", name: "Palak Paneer (less oil)", cal: 280, tag: "Lunch", benefit: "Iron-rich, calcium, anti-inflammatory" },
-  { icon: "🍲", name: "Masoor Dal & Brown Rice", cal: 340, tag: "Lunch", benefit: "Protein + complex carbs, low GI" },
-  { icon: "🥦", name: "Sabzi with Methi (Fenugreek)", cal: 160, tag: "Dinner", benefit: "Lowers insulin resistance" },
-  { icon: "🫙", name: "Curd (Homemade Dahi)", cal: 100, tag: "Snack", benefit: "Gut health, reduces inflammation" },
-  { icon: "🌾", name: "Ragi Roti", cal: 130, tag: "Dinner", benefit: "High calcium, low GI, PCOS-safe grain" },
-  { icon: "🥜", name: "Soaked Almonds & Walnuts", cal: 120, tag: "Snack", benefit: "Omega-3, hormone regulation" },
-  { icon: "🍛", name: "Rajma (Kidney Bean Curry)", cal: 310, tag: "Lunch", benefit: "High fibre, stabilises blood sugar" },
-  { icon: "🫚", name: "Sautéed Bhindi (Okra)", cal: 90, tag: "Dinner", benefit: "Rich in magnesium, reduces cortisol" },
-  { icon: "🥗", name: "Sprouts Chaat", cal: 150, tag: "Snack", benefit: "Enzymes, protein, gut-friendly" },
-  { icon: "🍚", name: "Vegetable Khichdi", cal: 260, tag: "Dinner", benefit: "Easy to digest, balanced macros" },
+  { icon: "", name: "Daliya (Broken Wheat Porridge)", cal: 220, tag: "Breakfast", benefit: "Low GI, keeps blood sugar stable" },
+  { icon: "", name: "Moong Dal Chilla", cal: 180, tag: "Breakfast", benefit: "High protein, hormone-friendly" },
+  { icon: "", name: "Palak Paneer (less oil)", cal: 280, tag: "Lunch", benefit: "Iron-rich, calcium, anti-inflammatory" },
+  { icon: "", name: "Masoor Dal & Brown Rice", cal: 340, tag: "Lunch", benefit: "Protein + complex carbs, low GI" },
+  { icon: "", name: "Sabzi with Methi (Fenugreek)", cal: 160, tag: "Dinner", benefit: "Lowers insulin resistance" },
+  { icon: "", name: "Curd (Homemade Dahi)", cal: 100, tag: "Snack", benefit: "Gut health, reduces inflammation" },
+  { icon: "", name: "Ragi Roti", cal: 130, tag: "Dinner", benefit: "High calcium, low GI, PCOS-safe grain" },
+  { icon: "", name: "Soaked Almonds & Walnuts", cal: 120, tag: "Snack", benefit: "Omega-3, hormone regulation" },
+  { icon: "", name: "Rajma (Kidney Bean Curry)", cal: 310, tag: "Lunch", benefit: "High fibre, stabilises blood sugar" },
+  { icon: "", name: "Sautéed Bhindi (Okra)", cal: 90, tag: "Dinner", benefit: "Rich in magnesium, reduces cortisol" },
+  { icon: "", name: "Sprouts Chaat", cal: 150, tag: "Snack", benefit: "Enzymes, protein, gut-friendly" },
+  { icon: "", name: "Vegetable Khichdi", cal: 260, tag: "Dinner", benefit: "Easy to digest, balanced macros" },
 ];
 
 // ── Indian kitchen seeds for PCOS ──────────────────────────────────────────
 const PCOS_SEEDS = [
-  { icon: "🌿", name: "Alsi (Flax Seeds)", dose: "1 tbsp/day", benefit: "Balances estrogen, rich in omega-3", phase: "Days 1–14" },
-  { icon: "🎃", name: "Kaddu ke Beej (Pumpkin Seeds)", dose: "1 tbsp/day", benefit: "Zinc-rich, boosts progesterone", phase: "Days 1–14" },
-  { icon: "🌾", name: "Til (Sesame Seeds)", dose: "1 tbsp/day", benefit: "Lignans support hormone balance", phase: "Days 15–28" },
-  { icon: "🌻", name: "Surajmukhi (Sunflower Seeds)", dose: "1 tbsp/day", benefit: "Vitamin E, supports luteal phase", phase: "Days 15–28" },
-  { icon: "⚫", name: "Kalonji (Nigella Seeds)", dose: "½ tsp/day", benefit: "Anti-androgen, reduces testosterone", phase: "Daily" },
-  { icon: "🌱", name: "Sabja (Basil Seeds)", dose: "1 tsp in water", benefit: "Cools body, regulates blood sugar", phase: "Daily" },
+  { icon: "", name: "Alsi (Flax Seeds)", dose: "1 tbsp/day", benefit: "Balances estrogen, rich in omega-3", phase: "Days 1–14" },
+  { icon: "", name: "Kaddu ke Beej (Pumpkin Seeds)", dose: "1 tbsp/day", benefit: "Zinc-rich, boosts progesterone", phase: "Days 1–14" },
+  { icon: "", name: "Til (Sesame Seeds)", dose: "1 tbsp/day", benefit: "Lignans support hormone balance", phase: "Days 15–28" },
+  { icon: "", name: "Surajmukhi (Sunflower Seeds)", dose: "1 tbsp/day", benefit: "Vitamin E, supports luteal phase", phase: "Days 15–28" },
+  { icon: "", name: "Kalonji (Nigella Seeds)", dose: "½ tsp/day", benefit: "Anti-androgen, reduces testosterone", phase: "Daily" },
+  { icon: "", name: "Sabja (Basil Seeds)", dose: "1 tsp in water", benefit: "Cools body, regulates blood sugar", phase: "Daily" },
 ];
 
 // ── Indian kitchen teas for PCOS ───────────────────────────────────────────
 const PCOS_TEAS = [
-  { icon: "🫚", name: "Methi (Fenugreek) Tea", benefit: "Lowers insulin resistance, regulates cycle", cups: "1 cup/day" },
-  { icon: "🌿", name: "Pudina (Spearmint) Tea", benefit: "Reduces androgens, anti-androgen effect", cups: "2 cups/day" },
-  { icon: "🤎", name: "Dalchini (Cinnamon) Tea", benefit: "Improves insulin sensitivity, lowers sugar", cups: "1 cup/day" },
-  { icon: "🟡", name: "Haldi Doodh (Turmeric Milk)", benefit: "Anti-inflammatory, balances hormones", cups: "1 cup/day" },
-  { icon: "🌸", name: "Ajwain (Carom Seeds) Tea", benefit: "Reduces bloating, digestive relief", cups: "1 cup/day" },
-  { icon: "🍃", name: "Tulsi (Holy Basil) Tea", benefit: "Reduces cortisol & stress, adrenal support", cups: "2 cups/day" },
-  { icon: "🫚", name: "Jeera (Cumin) Water", benefit: "Boosts metabolism, reduces inflammation", cups: "1–2 cups/day" },
-  { icon: "🧄", name: "Adrak (Ginger) Tea", benefit: "Anti-inflammatory, reduces period pain", cups: "1–2 cups/day" },
-  { icon: "🌼", name: "Saunf (Fennel) Tea", benefit: "Balances hormones, reduces bloating", cups: "1 cup/day" },
-  { icon: "🍋", name: "Neem & Honey Water", benefit: "Detoxifies, anti-androgenic properties", cups: "1 cup/morning" },
+  { icon: "", name: "Methi (Fenugreek) Tea", benefit: "Lowers insulin resistance, regulates cycle", cups: "1 cup/day" },
+  { icon: "", name: "Pudina (Spearmint) Tea", benefit: "Reduces androgens, anti-androgen effect", cups: "2 cups/day" },
+  { icon: "", name: "Dalchini (Cinnamon) Tea", benefit: "Improves insulin sensitivity, lowers sugar", cups: "1 cup/day" },
+  { icon: "", name: "Haldi Doodh (Turmeric Milk)", benefit: "Anti-inflammatory, balances hormones", cups: "1 cup/day" },
+  { icon: "", name: "Ajwain (Carom Seeds) Tea", benefit: "Reduces bloating, digestive relief", cups: "1 cup/day" },
+  { icon: "", name: "Tulsi (Holy Basil) Tea", benefit: "Reduces cortisol & stress, adrenal support", cups: "2 cups/day" },
+  { icon: "", name: "Jeera (Cumin) Water", benefit: "Boosts metabolism, reduces inflammation", cups: "1–2 cups/day" },
+  { icon: "", name: "Adrak (Ginger) Tea", benefit: "Anti-inflammatory, reduces period pain", cups: "1–2 cups/day" },
+  { icon: "", name: "Saunf (Fennel) Tea", benefit: "Balances hormones, reduces bloating", cups: "1 cup/day" },
+  { icon: "", name: "Neem & Honey Water", benefit: "Detoxifies, anti-androgenic properties", cups: "1 cup/morning" },
 ];
 
 const DAILY_CALORIE_GOAL = 1800;
@@ -294,7 +294,7 @@ export default function Diet() {
         {/* ── Meals Eaten ── */}
         <div className="diet-card">
           <div className="diet-card-header">
-            <div className="diet-label">What I Ate Today 🍽️</div>
+            <div className="diet-label">What I Ate Today </div>
             <button className="diet-add-btn" onClick={() => setShowMealForm(!showMealForm)}>
               {showMealForm ? "✕ Cancel" : "+ Add Meal"}
             </button>
@@ -357,7 +357,7 @@ export default function Diet() {
         {/* ── Water Intake ── */}
         <div className="diet-card">
           <div className="diet-card-header">
-            <div className="diet-label">Water Intake 💧</div>
+            <div className="diet-label">Water Intake </div>
             <button className="diet-add-btn" onClick={() => setShowWaterForm(!showWaterForm)}>
               {showWaterForm ? "✕ Cancel" : "+ Add"}
             </button>
@@ -391,7 +391,7 @@ export default function Diet() {
           <div className="diet-list" style={{ marginTop: "1rem" }}>
             {waterLogs.map((w, i) => (
               <div className="diet-list-row" key={i}>
-                <div className="diet-list-icon">💧</div>
+                <div className="diet-list-icon"></div>
                 <div className="diet-list-info">
                   <div className="diet-list-name">{w.amount}</div>
                 </div>
@@ -405,7 +405,7 @@ export default function Diet() {
         {/* ── Indian Kitchen Seeds ── */}
         <div className="diet-card">
           <div className="diet-card-header">
-            <div className="diet-label">Indian Seed Cycling 🌿</div>
+            <div className="diet-label">Indian Seed Cycling </div>
             <button className="diet-add-btn" onClick={() => setShowSeedForm(!showSeedForm)}>
               {showSeedForm ? "✕ Cancel" : "+ Log Seed"}
             </button>
@@ -436,7 +436,7 @@ export default function Diet() {
                   <button className="diet-rec-add" onClick={() => addSeedFromCard(s)}>+</button>
                 </div>
                 <div className="diet-seed-benefit">{s.benefit}</div>
-                <div className="diet-seed-phase">📅 {s.phase}</div>
+                <div className="diet-seed-phase"> {s.phase}</div>
               </div>
             ))}
           </div>
@@ -445,7 +445,7 @@ export default function Diet() {
               <div className="diet-list-subhead">Today's seed log</div>
               {seedLogs.map((s, i) => (
                 <div className="diet-list-row" key={i}>
-                  <div className="diet-list-icon">🌿</div>
+                  <div className="diet-list-icon"></div>
                   <div className="diet-list-info">
                     <div className="diet-list-name">{s.name}</div>
                     <div className="diet-list-meta">{s.dose}</div>
@@ -461,7 +461,7 @@ export default function Diet() {
         {/* ── Indian Kitchen Teas ── */}
         <div className="diet-card diet-full">
           <div className="diet-card-header">
-            <div className="diet-label">Indian Kitchen Teas & Drinks 🫖</div>
+            <div className="diet-label">Indian Kitchen Teas & Drinks </div>
             <button className="diet-add-btn" onClick={() => setShowTeaForm(!showTeaForm)}>
               {showTeaForm ? "✕ Cancel" : "+ Log Tea"}
             </button>
@@ -489,7 +489,7 @@ export default function Diet() {
                 </div>
                 <div className="diet-tea-name">{t.name}</div>
                 <div className="diet-tea-benefit">{t.benefit}</div>
-                <div className="diet-tea-cups">☕ {t.cups}</div>
+                <div className="diet-tea-cups"> {t.cups}</div>
               </div>
             ))}
           </div>
@@ -498,7 +498,7 @@ export default function Diet() {
               <div className="diet-list-subhead">Today's tea & drinks log</div>
               {teaLogs.map((t, i) => (
                 <div className="diet-list-row" key={i}>
-                  <div className="diet-list-icon">🫖</div>
+                  <div className="diet-list-icon"></div>
                   <div className="diet-list-info">
                     <div className="diet-list-name">{t.name}</div>
                     <div className="diet-list-meta">{t.cups} cup{t.cups > 1 ? "s" : ""}</div>
