@@ -12,7 +12,7 @@ import About       from "./pages/About";
 import AuthFlow    from "./pages/AuthFlow";
 import Profile     from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
-import wellnessScore from "./components/WellnessScore";
+import WellnessScore from "./components/WellnessScore";
 
 
 
@@ -43,7 +43,7 @@ function App() {
         <Route path="/login"       element={<AuthFlow />}    />
         <Route path="/profile"     element={<Profile />}     />
         <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/wellness" element={<WellnessScore />} />
+        <Route path="/Wellness" element={<WellnessScore />} />
       </Routes>
     </Router>
   );
