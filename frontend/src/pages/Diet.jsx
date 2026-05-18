@@ -11,7 +11,7 @@ const RECOMMENDED_MEALS = [
   { icon: "ti-plant", name: "Sabzi with Methi (Fenugreek)", cal: 160, tag: "Dinner", benefit: "Lowers insulin resistance" },
   { icon: "ti-glass-full", name: "Curd (Homemade Dahi)", cal: 100, tag: "Snack", benefit: "Gut health, reduces inflammation" },
   { icon: "ti-bread", name: "Ragi Roti", cal: 130, tag: "Dinner", benefit: "High calcium, low GI, PCOS-safe grain" },
-  { icon: "ti-nuts", name: "Soaked Almonds & Walnuts", cal: 120, tag: "Snack", benefit: "Omega-3, hormone regulation" },
+  { icon: "ti-bowl", name: "Soaked Almonds & Walnuts", cal: 120, tag: "Snack", benefit: "Omega-3, hormone regulation" },
   { icon: "ti-bowl", name: "Rajma (Kidney Bean Curry)", cal: 310, tag: "Lunch", benefit: "High fibre, stabilises blood sugar" },
   { icon: "ti-leaf", name: "Sautéed Bhindi (Okra)", cal: 90, tag: "Dinner", benefit: "Rich in magnesium, reduces cortisol" },
   { icon: "ti-salad", name: "Sprouts Chaat", cal: 150, tag: "Snack", benefit: "Enzymes, protein, gut-friendly" },
@@ -20,11 +20,11 @@ const RECOMMENDED_MEALS = [
 
 // ── Indian kitchen seeds for PCOS ──────────────────────────────────────────
 const PCOS_SEEDS = [
-  { icon: "ti-seed", name: "Alsi (Flax Seeds)", dose: "1 tbsp/day", benefit: "Balances estrogen, rich in omega-3", phase: "Days 1–14" },
-  { icon: "ti-seed", name: "Kaddu ke Beej (Pumpkin Seeds)", dose: "1 tbsp/day", benefit: "Zinc-rich, boosts progesterone", phase: "Days 1–14" },
-  { icon: "ti-seed", name: "Til (Sesame Seeds)", dose: "1 tbsp/day", benefit: "Lignans support hormone balance", phase: "Days 15–28" },
-  { icon: "ti-seed", name: "Surajmukhi (Sunflower Seeds)", dose: "1 tbsp/day", benefit: "Vitamin E, supports luteal phase", phase: "Days 15–28" },
-  { icon: "ti-seed", name: "Kalonji (Nigella Seeds)", dose: "½ tsp/day", benefit: "Anti-androgen, reduces testosterone", phase: "Daily" },
+  { icon: "ti-droplet", name: "Alsi (Flax Seeds)", dose: "1 tbsp/day", benefit: "Balances estrogen, rich in omega-3", phase: "Days 1–14" },
+  { icon: "ti-droplet", name: "Kaddu ke Beej (Pumpkin Seeds)", dose: "1 tbsp/day", benefit: "Zinc-rich, boosts progesterone", phase: "Days 1–14" },
+  { icon: "ti-droplet", name: "Til (Sesame Seeds)", dose: "1 tbsp/day", benefit: "Lignans support hormone balance", phase: "Days 15–28" },
+  { icon: "ti-droplet", name: "Surajmukhi (Sunflower Seeds)", dose: "1 tbsp/day", benefit: "Vitamin E, supports luteal phase", phase: "Days 15–28" },
+  { icon: "ti-droplet", name: "Kalonji (Nigella Seeds)", dose: "½ tsp/day", benefit: "Anti-androgen, reduces testosterone", phase: "Daily" },
   { icon: "ti-droplet", name: "Sabja (Basil Seeds)", dose: "1 tsp in water", benefit: "Cools body, regulates blood sugar", phase: "Daily" },
 ];
 
