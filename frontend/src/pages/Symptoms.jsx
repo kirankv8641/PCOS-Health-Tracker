@@ -4,7 +4,7 @@ import "./Symptoms.css";
 
 const SYMPTOM_LIBRARY = [
   { icon: "ti-droplet",          name: "Acne",             cat: "Skin"      },
-  { icon: "ti-hair-off",         name: "Hair loss",         cat: "Hair"      },
+  { icon: "ti-minimize",         name: "Hair loss",         cat: "Hair"      },
   { icon: "ti-minimize",         name: "Hair thinning",     cat: "Hair"      },
   { icon: "ti-scale",            name: "Weight gain",       cat: "Body"      },
   { icon: "ti-zzz",              name: "Fatigue",           cat: "Energy"    },
@@ -14,7 +14,7 @@ const SYMPTOM_LIBRARY = [
   { icon: "ti-wave-sine",        name: "Cramps",            cat: "Pain"      },
   { icon: "ti-headset",          name: "Headache",          cat: "Pain"      },
   { icon: "ti-moon",             name: "Insomnia",          cat: "Sleep"     },
-  { icon: "ti-tint",             name: "Oily skin",         cat: "Skin"      },
+  { icon: "ti-droplet",             name: "Oily skin",         cat: "Skin"      },
   { icon: "ti-candy",            name: "Sugar cravings",    cat: "Digestive" },
   { icon: "ti-calendar-off",     name: "Irregular periods", cat: "Cycle"     },
   { icon: "ti-snowflake",        name: "Cold hands/feet",   cat: "Body"      },
