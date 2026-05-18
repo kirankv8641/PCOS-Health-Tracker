@@ -3,31 +3,38 @@ import api from "../services/api";
 import "./Symptoms.css";
 
 const SYMPTOM_LIBRARY = [
-  { icon: "🧴", name: "Acne",             cat: "Skin"      },
-  { icon: "💇", name: "Hair loss",         cat: "Hair"      },
-  { icon: "🌱", name: "Hair thinning",     cat: "Hair"      },
-  { icon: "⚖️", name: "Weight gain",       cat: "Body"      },
-  { icon: "😴", name: "Fatigue",           cat: "Energy"    },
-  { icon: "😟", name: "Mood swings",       cat: "Mental"    },
-  { icon: "😰", name: "Anxiety",           cat: "Mental"    },
-  { icon: "🍽️", name: "Bloating",          cat: "Digestive" },
-  { icon: "🌡️", name: "Cramps",            cat: "Pain"      },
-  { icon: "🤕", name: "Headache",          cat: "Pain"      },
-  { icon: "🌙", name: "Insomnia",          cat: "Sleep"     },
-  { icon: "💧", name: "Oily skin",         cat: "Skin"      },
-  { icon: "🍬", name: "Sugar cravings",    cat: "Digestive" },
-  { icon: "🩸", name: "Irregular periods", cat: "Cycle"     },
-  { icon: "❄️", name: "Cold hands/feet",   cat: "Body"      },
-  { icon: "💪", name: "Joint pain",        cat: "Pain"      },
+  { icon: "ti-droplet",          name: "Acne",             cat: "Skin"      },
+  { icon: "ti-hair-off",         name: "Hair loss",         cat: "Hair"      },
+  { icon: "ti-minimize",         name: "Hair thinning",     cat: "Hair"      },
+  { icon: "ti-scale",            name: "Weight gain",       cat: "Body"      },
+  { icon: "ti-zzz",              name: "Fatigue",           cat: "Energy"    },
+  { icon: "ti-mood-sad",         name: "Mood swings",       cat: "Mental"    },
+  { icon: "ti-brain",            name: "Anxiety",           cat: "Mental"    },
+  { icon: "ti-cloud",            name: "Bloating",          cat: "Digestive" },
+  { icon: "ti-wave-sine",        name: "Cramps",            cat: "Pain"      },
+  { icon: "ti-headset",          name: "Headache",          cat: "Pain"      },
+  { icon: "ti-moon",             name: "Insomnia",          cat: "Sleep"     },
+  { icon: "ti-tint",             name: "Oily skin",         cat: "Skin"      },
+  { icon: "ti-candy",            name: "Sugar cravings",    cat: "Digestive" },
+  { icon: "ti-calendar-off",     name: "Irregular periods", cat: "Cycle"     },
+  { icon: "ti-snowflake",        name: "Cold hands/feet",   cat: "Body"      },
+  { icon: "ti-bone",             name: "Joint pain",        cat: "Pain"      },
 ];
 
 const CATS = ["All", ...Array.from(new Set(SYMPTOM_LIBRARY.map((s) => s.cat)))];
+
+// Summary card icons per category
+const SUMMARY_ICONS = {
+  tracking: "ti-chart-line",
+  mild:     "ti-circle-check",
+  mod:      "ti-alert-circle",
+  sev:      "ti-alert-triangle",
+};
 
 const getLabel      = (v) => ["None", "Mild", "Moderate", "Severe"][v];
 const getBadgeClass = (v) => ["badge-none", "badge-mild", "badge-mod", "badge-sev"][v];
 const getTrackColor = (v) => ["#EDE8FF", "#C9BCFF", "#E09ED6", "#993356"][v];
 
-// "2026-05-15" → "May 15, 2026"
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
   const [y, m, d] = dateStr.split("-");
@@ -46,16 +53,13 @@ export default function Symptoms() {
   const [showLibrary,    setShowLibrary]    = useState(false);
   const [loading,        setLoading]        = useState(true);
 
-  // ── Fetch all logs from backend ───────────────────────────────────────────
   const fetchLogs = useCallback(async () => {
     try {
       const res = await api.get("/symptom-logs");
       if (res.data.success) {
         const logs = res.data.data || [];
         setHistory(logs);
-
-        // Pre-fill today's symptoms if a log exists
-        const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD local time
+        const today = new Date().toLocaleDateString("en-CA");
         const todayLog = logs.find((l) => l.date === today);
         if (todayLog && todayLog.symptoms.length > 0) {
           setActiveSymptoms(todayLog.symptoms.map((s) => s.name));
@@ -74,7 +78,6 @@ export default function Symptoms() {
 
   useEffect(() => { fetchLogs(); }, [fetchLogs]);
 
-  // ── Toggle symptom ────────────────────────────────────────────────────────
   const toggleSymptom = (name) => {
     setActiveSymptoms((prev) =>
       prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
@@ -97,13 +100,11 @@ export default function Symptoms() {
     return matchCat && matchSearch;
   });
 
-  // ── Save → reload from DB ─────────────────────────────────────────────────
   const saveLog = async () => {
     const active = activeSymptoms
       .filter((n) => getVal(n) > 0)
       .map((n) => ({ name: n, severity: getVal(n) }));
     if (!active.length) return;
-
     try {
       const res = await api.post("/symptom-logs", { symptoms: active, notes });
       if (res.data.success) {
@@ -111,7 +112,6 @@ export default function Symptoms() {
         setTimeout(() => setSaved(false), 3000);
         setValues({});
         setNotes("");
-        // Reload full history from DB so Recent Logs is always in sync
         const updated = await api.get("/symptom-logs");
         if (updated.data.success) setHistory(updated.data.data || []);
       }
@@ -120,7 +120,6 @@ export default function Symptoms() {
     }
   };
 
-  // ── Delete → reload from DB ───────────────────────────────────────────────
   const deleteLog = async (logId) => {
     try {
       await api.delete(`/symptom-logs/${logId}`);
@@ -149,18 +148,28 @@ export default function Symptoms() {
 
       <div className="sym-grid">
 
-        {/* Summary */}
+        {/* ── Summary ── */}
         <div className="sym-card sym-full">
           <div className="sym-card-header"><div className="sym-label">Today's summary</div></div>
           <div className="sym-summary">
-            <div className="sym-sum-card tracking"><div className="sym-sum-num">{activeSymptoms.length}</div><div className="sym-sum-lbl">Tracking</div></div>
-            <div className="sym-sum-card mild"><div className="sym-sum-num">{mildCount}</div><div className="sym-sum-lbl">Mild</div></div>
-            <div className="sym-sum-card mod"><div className="sym-sum-num">{modCount}</div><div className="sym-sum-lbl">Moderate</div></div>
-            <div className="sym-sum-card sev"><div className="sym-sum-num">{sevCount}</div><div className="sym-sum-lbl">Severe</div></div>
+            {[
+              { key: "tracking", num: activeSymptoms.length, lbl: "Tracking" },
+              { key: "mild",     num: mildCount,             lbl: "Mild"     },
+              { key: "mod",      num: modCount,              lbl: "Moderate" },
+              { key: "sev",      num: sevCount,              lbl: "Severe"   },
+            ].map((s) => (
+              <div className={`sym-sum-card ${s.key}`} key={s.key}>
+                <div className="sym-sum-icon-wrap">
+                  <i className={`ti ${SUMMARY_ICONS[s.key]}`} aria-hidden="true" />
+                </div>
+                <div className="sym-sum-num">{s.num}</div>
+                <div className="sym-sum-lbl">{s.lbl}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* My Symptoms */}
+        {/* ── My Symptoms ── */}
         <div className="sym-card sym-two-thirds">
           <div className="sym-card-header">
             <div className="sym-label">My symptoms</div>
@@ -174,15 +183,20 @@ export default function Symptoms() {
           )}
 
           {activeSymptoms.map((name) => {
-            const sym = SYMPTOM_LIBRARY.find((s) => s.name === name) || { icon: "🔵", name, cat: "" };
+            const sym = SYMPTOM_LIBRARY.find((s) => s.name === name) || { icon: "ti-circle", name, cat: "" };
             const v   = getVal(name);
             const pct = (v / 3) * 100;
             return (
               <div className="sym-row" key={name}>
                 <div className="sym-row-top">
                   <div className="sym-row-left">
-                    <div className="sym-icon">{sym.icon}</div>
-                    <div><div className="sym-name">{sym.name}</div><div className="sym-cat">{sym.cat}</div></div>
+                    <div className="sym-icon">
+                      <i className={`ti ${sym.icon}`} aria-hidden="true" />
+                    </div>
+                    <div>
+                      <div className="sym-name">{sym.name}</div>
+                      <div className="sym-cat">{sym.cat}</div>
+                    </div>
                   </div>
                   <div className="sym-row-right">
                     <span className={`sym-badge ${getBadgeClass(v)}`}>{getLabel(v)}</span>
@@ -204,23 +218,38 @@ export default function Symptoms() {
 
           {activeSymptoms.length > 0 && (
             <div className="sym-notes-section">
-              <div className="sym-label" style={{ marginBottom: "8px" }}>Notes</div>
+              <div className="sym-label" style={{ marginBottom: "8px" }}>
+                <i className="ti ti-note" style={{ marginRight: "6px", color: "#7c76f4" }} />
+                Notes
+              </div>
               <textarea className="sym-notes"
                 placeholder="Any other things you noticed — energy, stress, sleep quality..."
                 value={notes} onChange={(e) => setNotes(e.target.value)} />
               <div className="sym-save-row">
-                {saved && <span className="sym-saved-msg">✓ Saved!</span>}
-                <button className="sym-save-btn" onClick={saveLog}>Save today's log →</button>
+                {saved && (
+                  <span className="sym-saved-msg">
+                    <i className="ti ti-circle-check" style={{ marginRight: "4px" }} />Saved!
+                  </span>
+                )}
+                <button className="sym-save-btn" onClick={saveLog}>
+                  <i className="ti ti-device-floppy" style={{ marginRight: "6px" }} />
+                  Save today's log
+                </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* Symptom Library */}
+        {/* ── Symptom Library ── */}
         <div className="sym-card sym-one-third">
-          <div className="sym-card-header"><div className="sym-label">Symptom library</div></div>
-          <input className="sym-search" placeholder="Search symptoms..." value={search}
-            onChange={(e) => setSearch(e.target.value)} />
+          <div className="sym-card-header">
+            <div className="sym-label">Symptom library</div>
+          </div>
+          <div className="sym-search-wrap">
+            <i className="ti ti-search sym-search-icon" aria-hidden="true" />
+            <input className="sym-search" placeholder="Search symptoms..." value={search}
+              onChange={(e) => setSearch(e.target.value)} />
+          </div>
           <div className="sym-cat-filters">
             {CATS.map((c) => (
               <button key={c} className={`sym-cat-btn ${filterCat === c ? "active" : ""}`}
@@ -232,13 +261,17 @@ export default function Symptoms() {
               const added = activeSymptoms.includes(s.name);
               return (
                 <div className={`sym-lib-row ${added ? "added" : ""}`} key={s.name}>
-                  <span className="sym-lib-icon">{s.icon}</span>
+                  <div className="sym-lib-icon">
+                    <i className={`ti ${s.icon}`} aria-hidden="true" />
+                  </div>
                   <div className="sym-lib-info">
                     <div className="sym-lib-name">{s.name}</div>
                     <div className="sym-lib-cat">{s.cat}</div>
                   </div>
                   <button className={`sym-lib-btn ${added ? "remove" : "add"}`}
-                    onClick={() => toggleSymptom(s.name)}>{added ? "✕" : "+"}</button>
+                    onClick={() => toggleSymptom(s.name)}>
+                    {added ? "✕" : "+"}
+                  </button>
                 </div>
               );
             })}
@@ -246,7 +279,7 @@ export default function Symptoms() {
           </div>
         </div>
 
-        {/* Recent Logs — from DB */}
+        {/* ── Recent Logs ── */}
         <div className="sym-card sym-full">
           <div className="sym-card-header">
             <div className="sym-label">Recent logs</div>
@@ -254,18 +287,31 @@ export default function Symptoms() {
           {history.length === 0 && <p className="sym-empty">No logs yet. Start tracking today!</p>}
           {history.map((h, i) => (
             <div className="sym-hist-row" key={h._id || i}>
-              <div className="sym-hist-date">{formatDate(h.date)}</div>
-              <div className="sym-hist-pills">
-                {h.symptoms.map((s, j) => (
-                  <span className={`sym-hist-pill ${getBadgeClass(s.severity)}`} key={j}>
-                    {s.name} · {getLabel(s.severity)}
-                  </span>
-                ))}
+              <div className="sym-hist-header">
+                <div className="sym-hist-date">
+                  <i className="ti ti-calendar-event" style={{ marginRight: "6px", color: "#7c76f4" }} />
+                  {formatDate(h.date)}
+                </div>
+                {h._id && (
+                  <button className="sym-remove-btn" onClick={() => deleteLog(h._id)} title="Delete log">✕</button>
+                )}
               </div>
-              {h.notes && <div className="sym-hist-notes">{h.notes}</div>}
-              {h._id && (
-                <button className="sym-remove-btn" onClick={() => deleteLog(h._id)}
-                  title="Delete log" style={{ marginLeft: "auto", flexShrink: 0 }}>✕</button>
+              <div className="sym-hist-pills">
+                {h.symptoms.map((s, j) => {
+                  const libSym = SYMPTOM_LIBRARY.find((ls) => ls.name === s.name);
+                  return (
+                    <span className={`sym-hist-pill ${getBadgeClass(s.severity)}`} key={j}>
+                      {libSym && <i className={`ti ${libSym.icon}`} style={{ marginRight: "4px", fontSize: "10px" }} />}
+                      {s.name} · {getLabel(s.severity)}
+                    </span>
+                  );
+                })}
+              </div>
+              {h.notes && (
+                <div className="sym-hist-notes">
+                  <i className="ti ti-note" style={{ marginRight: "4px", fontSize: "11px", color: "#9b89cc" }} />
+                  {h.notes}
+                </div>
               )}
             </div>
           ))}

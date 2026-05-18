@@ -3,16 +3,14 @@
 /* ── Base ── */
 .sym-page {
   font-family: 'DM Sans', sans-serif;
-  background: #ffffff;  /* changed from #c1b3f2 */
+  background: #ffffff;
   min-height: 100vh;
   padding: 2.5rem;
   color: #1a1135;
 }
 
 /* ── Header ── */
-.sym-header {
-  margin-bottom: 2rem;
-}
+.sym-header { margin-bottom: 2rem; }
 
 .sym-eyebrow {
   font-size: 11px;
@@ -79,6 +77,8 @@
   color: #3d2b8a;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
 }
 
 /* ── Summary ── */
@@ -91,13 +91,29 @@
 .sym-sum-card {
   border-radius: 14px;
   padding: 1rem 1.25rem;
-  text-align: center;
 }
 
 .sym-sum-card.tracking { background: #ede8ff; }
 .sym-sum-card.mild     { background: #e0f5eb; }
 .sym-sum-card.mod      { background: #fdf0fb; }
 .sym-sum-card.sev      { background: #fde8f0; }
+
+/* Summary icon box */
+.sym-sum-icon-wrap {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.sym-sum-card.tracking .sym-sum-icon-wrap { background: #d9d0ff; color: #3d2b8a; }
+.sym-sum-card.mild     .sym-sum-icon-wrap { background: #bbf7d0; color: #166534; }
+.sym-sum-card.mod      .sym-sum-icon-wrap { background: #f5d0e8; color: #9d174d; }
+.sym-sum-card.sev      .sym-sum-icon-wrap { background: #fecdd3; color: #9f1239; }
 
 .sym-sum-num {
   font-family: 'DM Serif Display', serif;
@@ -166,8 +182,9 @@
   gap: 8px;
 }
 
+/* Symptom icon box — Tabler icon inside colored rounded box */
 .sym-icon {
-  font-size: 20px;
+  font-size: 17px;
   width: 38px;
   height: 38px;
   background: #ede8ff;
@@ -176,6 +193,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: #7c76f4;
 }
 
 .sym-name {
@@ -203,7 +221,7 @@
 .badge-mod  { background: #fdf0fb; color: #be185d; }
 .badge-sev  { background: #fde8f0; color: #9f1239; }
 
-/* ── Remove button on tracked symptom ── */
+/* ── Remove button ── */
 .sym-remove-btn {
   background: transparent;
   border: 1px solid #C9BCFF;
@@ -255,6 +273,7 @@
 }
 
 .sym-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
 .sym-slider::-moz-range-thumb {
   width: 18px;
   height: 18px;
@@ -310,6 +329,8 @@
   font-size: 13px;
   color: #15803d;
   font-weight: 500;
+  display: flex;
+  align-items: center;
 }
 
 .sym-save-btn {
@@ -323,15 +344,32 @@
   cursor: pointer;
   font-family: 'DM Sans', sans-serif;
   transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
 }
 
 .sym-save-btn:hover { background: #4930a8; }
 
 /* ── Library panel ── */
+.sym-search-wrap {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.sym-search-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #9b89cc;
+  pointer-events: none;
+}
+
 .sym-search {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px 12px;
+  padding: 8px 12px 8px 32px;
   border-radius: 10px;
   border: 1px solid #C9BCFF;
   background: #f9f7ff;
@@ -339,7 +377,6 @@
   font-family: 'DM Sans', sans-serif;
   color: #1a1135;
   outline: none;
-  margin-bottom: 10px;
   transition: border-color 0.2s;
 }
 
@@ -367,12 +404,7 @@
 }
 
 .sym-cat-btn:hover { background: #ede8ff; }
-
-.sym-cat-btn.active {
-  background: #7c76f4;
-  border-color: #7c76f4;
-  color: #fff;
-}
+.sym-cat-btn.active { background: #7c76f4; border-color: #7c76f4; color: #fff; }
 
 .sym-library-list {
   display: flex;
@@ -399,7 +431,24 @@
   border-color: #C9BCFF;
 }
 
-.sym-lib-icon { font-size: 18px; flex-shrink: 0; }
+/* Library icon box */
+.sym-lib-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #ede8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: #7c76f4;
+  flex-shrink: 0;
+}
+
+.sym-lib-row.added .sym-lib-icon {
+  background: #d9d0ff;
+  color: #5B3FBF;
+}
 
 .sym-lib-info { flex: 1; }
 
@@ -430,25 +479,10 @@
   font-family: 'DM Sans', sans-serif;
 }
 
-.sym-lib-btn.add {
-  background: #7c76f4;
-  color: #fff;
-}
-
-.sym-lib-btn.add:hover {
-  background: #5B3FBF;
-  transform: scale(1.1);
-}
-
-.sym-lib-btn.remove {
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-.sym-lib-btn.remove:hover {
-  background: #fca5a5;
-  transform: scale(1.1);
-}
+.sym-lib-btn.add    { background: #7c76f4; color: #fff; }
+.sym-lib-btn.add:hover    { background: #5B3FBF; transform: scale(1.1); }
+.sym-lib-btn.remove { background: #fee2e2; color: #b91c1c; }
+.sym-lib-btn.remove:hover { background: #fca5a5; transform: scale(1.1); }
 
 /* ── History ── */
 .sym-hist-row {
@@ -458,11 +492,20 @@
 
 .sym-hist-row:last-child { border-bottom: none; }
 
+/* Header row with date + delete button */
+.sym-hist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
 .sym-hist-date {
   font-size: 12px;
   font-weight: 600;
   color: #3d2b8a;
-  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
 }
 
 .sym-hist-pills {
@@ -476,6 +519,17 @@
   font-weight: 500;
   padding: 3px 10px;
   border-radius: 99px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.sym-hist-notes {
+  font-size: 11px;
+  color: #9b89cc;
+  font-style: italic;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
 }
 
 .sym-empty {
@@ -487,29 +541,19 @@
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .sym-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .sym-full,
-  .sym-two-thirds,
-  .sym-one-third {
-    grid-column: 1;
-  }
-
-  .sym-summary {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .sym-grid { grid-template-columns: 1fr; }
+  .sym-full, .sym-two-thirds, .sym-one-third { grid-column: 1; }
+  .sym-summary { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-  .sym-page { padding: 1.5rem; }
+  .sym-page  { padding: 1.5rem; }
   .sym-title { font-size: 32px; }
 }
 
 @media (max-width: 480px) {
-  .sym-page { padding: 1rem; }
-  .sym-title { font-size: 26px; }
-  .sym-card { padding: 1.1rem; border-radius: 16px; }
+  .sym-page    { padding: 1rem; }
+  .sym-title   { font-size: 26px; }
+  .sym-card    { padding: 1.1rem; border-radius: 16px; }
   .sym-summary { grid-template-columns: repeat(2, 1fr); }
 }
