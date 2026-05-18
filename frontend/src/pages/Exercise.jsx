@@ -40,7 +40,7 @@ const ACTIVITY_ICONS = {
   "Walking":        "ti-walk",
   "Yoga":           "ti-yoga",
   "Cycling":        "ti-bike",
-  "Swimming":       "ti-yoga",
+  "Swimming":       "ti-music",
   "Strength":       "ti-barbell",
   "Zumba":          "ti-music",
   "Pilates":        "ti-stretching",
