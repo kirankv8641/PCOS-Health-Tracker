@@ -15,19 +15,6 @@ const AFFIRMATIONS = [
   "❤️ Your feelings are valid. You are valid.",
 ];
 
-const REMINDERS = [
-  { id: "morning_walk",   hour: 7,  minute: 30, title: "🚶 Morning Walk Reminder",  body: "Start your day with a 10-minute walk — great for insulin resistance!" },
-  { id: "water_1",        hour: 10,  minute: 33,  title: "💧 Hydration Check",         body: "Have you had your first 2 glasses of water today?" },
-  { id: "water_2",        hour: 13, minute: 0,  title: "💧 Midday Hydration",        body: "Time to drink 2 more glasses of water. Stay hydrated!" },
-  { id: "water_3",        hour: 17, minute: 0,  title: "💧 Afternoon Water Break",   body: "Keep sipping! Aim for 8 glasses total today." },
-  { id: "lunch_calories", hour: 13, minute: 30, title: "🍽️ Calorie Check-in",        body: "Remember to log your lunch! Your daily goal is 1800 kcal." },
-  { id: "exercise",       hour: 17, minute: 30, title: "🏃 Movement Time!",          body: "30 minutes of movement today keeps hormones in balance. You've got this!" },
-  { id: "seed_cycling",   hour: 8,  minute: 30, title: "🌿 Seed Cycling Reminder",   body: "Don't forget your daily seeds! Check the Diet page for today's phase." },
-  { id: "spearmint_tea",  hour: 10, minute: 0,  title: "🍵 Spearmint Tea Time",      body: "Time for your anti-androgen spearmint tea! 2 cups recommended daily." },
-  { id: "log_symptoms",   hour: 21, minute: 0,  title: "📋 Log Today's Symptoms",    body: "Take 2 minutes to track how you felt today. Patterns help your progress!" },
-  { id: "sleep_reminder", hour: 22, minute: 30, title: "🌙 Wind Down Time",          body: "Good sleep regulates cortisol and hormones. Start winding down now." },
-];
-
 // ── Register service worker ───────────────────────────────────
 async function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) {
@@ -37,9 +24,11 @@ async function registerServiceWorker() {
   try {
     const reg = await navigator.serviceWorker.register("/service-worker.js");
     console.log("✅ Service worker registered:", reg.scope);
+    // Wait for it to be active
+    await navigator.serviceWorker.ready;
     return reg;
   } catch (err) {
-    console.error("Service worker registration failed:", err);
+    console.error("❌ Service worker registration failed:", err);
     return null;
   }
 }
@@ -47,8 +36,36 @@ async function registerServiceWorker() {
 // ── Send message to service worker ───────────────────────────
 async function messageServiceWorker(data) {
   if (!("serviceWorker" in navigator)) return;
-  const reg = await navigator.serviceWorker.ready;
-  if (reg.active) reg.active.postMessage(data);
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    if (reg.active) reg.active.postMessage(data);
+  } catch (err) {
+    console.error("❌ Failed to message service worker:", err);
+  }
+}
+
+// ── Get reminders from localStorage (set by ReminderTimings) ─
+function getStoredReminders() {
+  try {
+    const stored = localStorage.getItem("reminders");
+    if (!stored) return null;
+    const parsed = JSON.parse(stored);
+    // Convert ReminderTimings format → service worker format
+    return parsed
+      .filter((r) => r.enabled)
+      .map((r) => {
+        const [hour, minute] = r.time.split(":").map(Number);
+        return {
+          id:     r.key,
+          title:  `${r.icon} ${r.label}`,
+          body:   r.sub,
+          hour,
+          minute,
+        };
+      });
+  } catch {
+    return null;
+  }
 }
 
 // ── Request permission ────────────────────────────────────────
@@ -60,24 +77,42 @@ export async function requestNotificationPermission() {
   return result === "granted";
 }
 
-// ── Init — called from App.js on login ───────────────────────
+// ── Init — call this from App.js on every page load/login ────
+// FIX: This must be called on EVERY app load, not just on button click.
+// The service worker loses its in-memory state on every page refresh,
+// so we must re-send INIT_REMINDERS each time the app loads.
 export async function initNotifications() {
-  const granted = await requestNotificationPermission();
-  if (!granted) return;
+  if (!("Notification" in window)) return;
+  if (Notification.permission !== "granted") return;
 
   await registerServiceWorker();
-  await navigator.serviceWorker.ready;
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
+  // Use reminders saved by ReminderTimings, or fall back to defaults
+  const reminders = getStoredReminders() || getDefaultReminders();
+
   await messageServiceWorker({
     type:                "INIT_REMINDERS",
-    reminders:           REMINDERS,
+    reminders,
     affirmations:        AFFIRMATIONS,
     affirmationsEnabled: user.affirmationsEnabled || false,
   });
 
   console.log("✅ Notifications initialised via service worker");
+}
+
+// ── Default reminders (used if ReminderTimings hasn't saved yet) ─
+function getDefaultReminders() {
+  return [
+    { id: "morningWalk",  hour: 7,  minute: 0,  title: "🚶 Morning Walk Reminder",   body: "Get your body moving" },
+    { id: "teaTime",      hour: 9,  minute: 30, title: "🍵 Tea / herbal drink",       body: "Hormone-friendly brew" },
+    { id: "waterIntake",  hour: 10, minute: 0,  title: "💧 Water intake",             body: "Stay hydrated" },
+    { id: "mealReminder", hour: 13, minute: 0,  title: "🍽️ Meal reminder",            body: "Don't skip meals" },
+    { id: "affirmation",  hour: 8,  minute: 0,  title: "✨ Daily affirmation",        body: "Your positive boost" },
+    { id: "log_symptoms", hour: 21, minute: 0,  title: "📋 Log Today's Symptoms",    body: "Take 2 minutes to track how you felt today." },
+    { id: "sleep_reminder", hour: 22, minute: 30, title: "🌙 Wind Down Time",        body: "Good sleep regulates cortisol and hormones." },
+  ];
 }
 
 // ── Update affirmation pref without full reinit ───────────────
@@ -92,5 +127,9 @@ export async function updateAffirmationSetting(enabled) {
 export async function sendTestNotification() {
   const granted = await requestNotificationPermission();
   if (!granted) { alert("Please allow notifications first."); return; }
+
+  // Re-init first to make sure SW has the latest reminders
+  await initNotifications();
+
   await messageServiceWorker({ type: "TEST_NOTIFICATION" });
 }

@@ -1,12 +1,9 @@
 // ─────────────────────────────────────────────────────────────
-//  service-worker.js
-//  Place this file in: public/service-worker.js
+//  service-worker.js  —  public/service-worker.js
 // ─────────────────────────────────────────────────────────────
 
-const CACHE_NAME = "pcos-care-v1";
-
 // ── Install ───────────────────────────────────────────────────
-self.addEventListener("install", (event) => {
+self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
@@ -15,112 +12,187 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(clients.claim());
 });
 
-// ── Receive messages from the app ────────────────────────────
-// The app sends { type, reminders, affirmations, affirmationsEnabled }
-self.addEventListener("message", (event) => {
-  const { type, reminders, affirmations, affirmationsEnabled } = event.data;
+// ─────────────────────────────────────────────────────────────
+//  STATE — persisted in IndexedDB so it survives SW restarts
+// ─────────────────────────────────────────────────────────────
 
-  if (type === "INIT_REMINDERS") {
-    // Store config in service worker memory
-    self.reminders            = reminders            || [];
-    self.affirmations         = affirmations         || [];
-    self.affirmationsEnabled  = affirmationsEnabled  || false;
-    self.sentToday            = self.sentToday        || {};
+// Simple IndexedDB wrapper
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open("pcos-sw-db", 1);
+    req.onupgradeneeded = (e) => {
+      e.target.result.createObjectStore("state");
+    };
+    req.onsuccess  = (e) => resolve(e.target.result);
+    req.onerror    = (e) => reject(e.target.error);
+  });
+}
 
-    // Start the scheduler if not already running
-    if (!self.schedulerTimer) {
-      self.schedulerTimer = setInterval(() => {
-        checkAndSend();
-      }, 60 * 1000); // every 60 seconds
+async function dbGet(key) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx  = db.transaction("state", "readonly");
+    const req = tx.objectStore("state").get(key);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror   = () => reject(req.error);
+  });
+}
 
-      // Also run immediately
-      checkAndSend();
-    }
-  }
+async function dbSet(key, value) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx  = db.transaction("state", "readwrite");
+    const req = tx.objectStore("state").put(value, key);
+    req.onsuccess = () => resolve();
+    req.onerror   = () => reject(req.error);
+  });
+}
 
-  if (type === "UPDATE_AFFIRMATIONS") {
-    self.affirmationsEnabled = event.data.affirmationsEnabled;
-  }
+// ─────────────────────────────────────────────────────────────
+//  SCHEDULER — uses setTimeout chains (more reliable than setInterval in SW)
+//  and re-reads from IndexedDB so it works across SW restarts
+// ─────────────────────────────────────────────────────────────
 
-  if (type === "TEST_NOTIFICATION") {
-    self.registration.showNotification("🔔 Notifications are working!", {
-      body: "You'll receive daily health reminders and affirmations here.",
-      icon: "/logo192.png",
-      badge: "/logo192.png",
-    });
-  }
-});
+let schedulerRunning = false;
 
-// ── Check time and send due reminders ─────────────────────────
-function checkAndSend() {
+async function startScheduler() {
+  if (schedulerRunning) return;
+  schedulerRunning = true;
+  scheduleNextCheck();
+}
+
+function scheduleNextCheck() {
+  // Calculate ms until the next full minute
+  const now            = new Date();
+  const msToNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds() + 500;
+
+  setTimeout(async () => {
+    await checkAndSend();
+    scheduleNextCheck(); // chain to next minute
+  }, msToNextMinute);
+}
+
+async function checkAndSend() {
   const now      = new Date();
-  const todayKey = now.toISOString().slice(0, 10); // "YYYY-MM-DD"
+  const todayKey = now.toISOString().slice(0, 10);
 
-  // Reset sent log on new day
-  if (self.lastDay !== todayKey) {
-    self.sentToday = {};
-    self.lastDay   = todayKey;
+  // Load state from IndexedDB (survives SW restarts)
+  let sentToday            = (await dbGet("sentToday"))            || {};
+  let lastDay              = (await dbGet("lastDay"))              || "";
+  const reminders          = (await dbGet("reminders"))            || [];
+  const affirmations       = (await dbGet("affirmations"))         || [];
+  const affirmationsEnabled= (await dbGet("affirmationsEnabled"))  || false;
+
+  // Reset on new day
+  if (lastDay !== todayKey) {
+    sentToday = {};
+    lastDay   = todayKey;
+    await dbSet("sentToday", sentToday);
+    await dbSet("lastDay",   lastDay);
   }
 
   const currentHour   = now.getHours();
   const currentMinute = now.getMinutes();
 
   // Check each reminder
-  (self.reminders || []).forEach((reminder) => {
+  for (const reminder of reminders) {
     const key = `${reminder.id}_${todayKey}`;
-    if (self.sentToday[key]) return; // already sent today
+    if (sentToday[key]) continue;
 
     if (
       currentHour   === reminder.hour &&
-      currentMinute >= reminder.minute &&
-      currentMinute <= reminder.minute + 1
+      currentMinute === reminder.minute
     ) {
-      self.registration.showNotification(reminder.title, {
+      await self.registration.showNotification(reminder.title, {
         body:  reminder.body,
         icon:  "/logo192.png",
         badge: "/logo192.png",
-        tag:   reminder.id, // prevents duplicate popups
+        tag:   reminder.id,
       });
-      self.sentToday[key] = true;
+      sentToday[key] = true;
     }
-  });
+  }
 
-  // Daily affirmation at 8:00 AM
-  if (self.affirmationsEnabled && self.affirmations?.length) {
+  // Daily affirmation
+  if (affirmationsEnabled && affirmations.length) {
     const affKey = `affirmation_${todayKey}`;
     if (
-      !self.sentToday[affKey] &&
+      !sentToday[affKey] &&
       currentHour   === 8 &&
-      currentMinute >= 0 &&
-      currentMinute <= 1
+      currentMinute === 0
     ) {
-      const aff = self.affirmations[Math.floor(Math.random() * self.affirmations.length)];
-      self.registration.showNotification("Your Daily Affirmation 💜", {
+      const aff = affirmations[Math.floor(Math.random() * affirmations.length)];
+      await self.registration.showNotification("Your Daily Affirmation 💜", {
         body:  aff,
         icon:  "/logo192.png",
         badge: "/logo192.png",
         tag:   "affirmation",
       });
-      self.sentToday[affKey] = true;
+      sentToday[affKey] = true;
     }
   }
+
+  // Persist updated sentToday
+  await dbSet("sentToday", sentToday);
 }
 
-// ── Handle notification click → open app ──────────────────────
+// ── Receive messages from the app ────────────────────────────
+self.addEventListener("message", async (event) => {
+  const { type, reminders, affirmations, affirmationsEnabled } = event.data || {};
+
+  if (type === "INIT_REMINDERS") {
+    // FIX: Persist everything to IndexedDB so it survives page reloads
+    await dbSet("reminders",           reminders            || []);
+    await dbSet("affirmations",        affirmations         || []);
+    await dbSet("affirmationsEnabled", affirmationsEnabled  || false);
+
+    // Start scheduler (safe to call multiple times — it checks schedulerRunning)
+    await startScheduler();
+
+    console.log("✅ SW: reminders stored and scheduler started");
+  }
+
+  if (type === "UPDATE_AFFIRMATIONS") {
+    await dbSet("affirmationsEnabled", event.data.affirmationsEnabled || false);
+  }
+
+  if (type === "TEST_NOTIFICATION") {
+    await self.registration.showNotification("🔔 Notifications are working!", {
+      body:  "You'll receive daily health reminders and affirmations.",
+      icon:  "/logo192.png",
+      badge: "/logo192.png",
+    });
+  }
+});
+
+// ── On SW startup, restart the scheduler if reminders exist ──
+// FIX: This handles the case where SW restarts (page reload, browser restart)
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    (async () => {
+      await clients.claim();
+      const reminders = await dbGet("reminders");
+      if (reminders && reminders.length > 0) {
+        await startScheduler();
+        console.log("✅ SW: scheduler restarted after activation");
+      }
+    })()
+  );
+});
+
+// ── Notification click → open app ─────────────────────────────
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-      // If app is already open, focus it
-      for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && "focus" in client) {
-          return client.focus();
+    clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clientList) => {
+        for (const client of clientList) {
+          if (client.url.includes(self.location.origin) && "focus" in client) {
+            return client.focus();
+          }
         }
-      }
-      // Otherwise open a new tab
-      if (clients.openWindow) {
-        return clients.openWindow("/");
-      }
-    })
+        if (clients.openWindow) return clients.openWindow("/");
+      })
   );
 });
