@@ -134,4 +134,6 @@ This application is intended for educational and health-tracking purposes only. 
 Kiran Vishwakarma
 
 GitHub: https://github.com/kirankv8641
-LinkedIn: Add your LinkedIn profile link here
+
+LinkedIn: www.linkedin.com/in/kiran-vishwakarma98
+
