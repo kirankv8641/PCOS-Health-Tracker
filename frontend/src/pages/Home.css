@@ -462,3 +462,68 @@
 .home-learn-left button:hover {
   background: rgba(255, 255, 255, 0.25);
 }
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 768px) {
+
+  /* Hero — stack left and right vertically */
+  .home-hero {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.25rem;
+    gap: 2rem;
+  }
+
+  /* Smaller title on mobile */
+  .home-title {
+    font-size: 34px;
+  }
+
+  /* Hide the floating badge on mobile (it overflows) */
+  .home-floating-badge {
+    display: none;
+  }
+
+  /* Stats — 2 columns on mobile instead of 4 */
+  .home-stats-strip {
+    padding: 2rem 1.25rem;
+  }
+
+  .home-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-stat-num {
+    font-size: 26px;
+  }
+
+  /* Features — 1 column on mobile */
+  .home-features {
+    padding: 2rem 1.25rem;
+  }
+
+  .home-features-title {
+    font-size: 26px;
+  }
+
+  .home-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Learn section — fix padding */
+  .home-learn {
+    margin: 0 1.25rem 2rem;
+  }
+
+  .home-learn-card {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  /* CTA Banner */
+  .home-cta-banner {
+    flex-direction: column;
+    margin: 0 1.25rem 2rem;
+    padding: 1.5rem;
+    text-align: center;
+  }
+}
